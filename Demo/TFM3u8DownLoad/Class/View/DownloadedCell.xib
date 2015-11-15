@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9059" systemVersion="14F1021" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" restorationIdentifier="Downloaded" selectionStyle="default" indentationWidth="10" reuseIdentifier="Downloaded" rowHeight="95" id="KGk-i7-Jjw" customClass="DownloadedCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="79"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="78.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="fwL-wH-9XI">
+                        <rect key="frame" x="10" y="8" width="56" height="62.5"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="56" id="UKA-Hl-6hs"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="神盾局第一季第一季" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ye8-XR-HhB">
+                        <rect key="frame" x="91" y="18" width="189" height="41.5"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="Ye8-XR-HhB" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="18" id="D4M-OW-eq1"/>
+                    <constraint firstItem="fwL-wH-9XI" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="eMp-hg-jGb"/>
+                    <constraint firstItem="Ye8-XR-HhB" firstAttribute="leading" secondItem="fwL-wH-9XI" secondAttribute="trailing" constant="25" id="gT3-P0-eym"/>
+                    <constraint firstAttribute="bottom" secondItem="Ye8-XR-HhB" secondAttribute="bottom" constant="19" id="hbn-uT-w4G"/>
+                    <constraint firstAttribute="trailing" secondItem="Ye8-XR-HhB" secondAttribute="trailing" constant="40" id="j0h-vd-6Hd"/>
+                    <constraint firstAttribute="bottom" secondItem="fwL-wH-9XI" secondAttribute="bottom" constant="8" id="nue-hL-y81"/>
+                    <constraint firstItem="fwL-wH-9XI" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="q6t-Gs-4PM"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="imageView" destination="fwL-wH-9XI" id="vuf-Ml-W6l"/>
+                <outlet property="titleLabel" destination="Ye8-XR-HhB" id="v6g-Io-T5D"/>
+            </connections>
+            <point key="canvasLocation" x="240" y="288.5"/>
+        </tableViewCell>
+    </objects>
+</document>

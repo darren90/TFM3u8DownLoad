@@ -1,0 +1,1006 @@
+//
+//  DatabaseTool.m
+//  Diancai1
+//
+//  Created by user on 14-3-11.
+//  Copyright (c) 2014年 user. All rights reserved.
+//
+
+#import "DatabaseTool.h"
+#import "FMDatabase.h"
+#import "FMDatabaseAdditions.h"
+
+//下载
+#import "DownLoadModel.h"
+#import "SearchHistoryModel.h"
+#import "DownedSeriesModel.h"
+
+#import "FileModel.h"
+#import "CommonHelper.h"
+
+static FMDatabase *_db;
+//order by id desc:降序 asc：升序
+@implementation DatabaseTool
+
++ (void)initialize
+{
+    NSString *cachesPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask , YES) firstObject];
+    NSString* sqlPath = [NSString stringWithFormat:@"%@/rrmj.sqlite",cachesPath];
+    NSLog(@"--sqlPath:%@",sqlPath);
+    _db = [[FMDatabase alloc] initWithPath:sqlPath];
+    
+    if (![_db open]) {
+        [_db close];
+        NSLog(@"打开数据库失败");
+    }
+    
+    [_db setShouldCacheStatements:YES];
+    
+     //1：下载相关
+//    if (![_db tableExists:@"movieDown"]) {   //uniquenName = movieId+episode
+//        // movieId,downUrl,iconUrl,title,uniquenName,downedSize,episode,middleProgress,progress,segmentTotal,segmentNotDown,isHadDown ,isInvalid integer,urlType,addTime
+//        [_db executeUpdate:@"CREATE TABLE if not exists movieDown (id integer primary key autoincrement,movieId TEXT,downUrl TEXT,iconUrl TEXT,title TEXT,uniquenName TEXT,downedSize double,episode integer,middleProgress double,progress double,segmentTotal integer,segmentNotDown integer,isHadDown integer,urlType integer,isInvalid integer,addTime date)"];
+//    }
+    
+    //2：看剧的搜素历史
+    if (![_db tableExists:@"SearchHistory"]) {
+        [_db executeUpdate:@"CREATE TABLE if not exists SearchHistory (id integer primary key autoincrement,title TEXT)"];
+    }
+    
+    //3：记录看剧时间
+    if (![_db tableExists:@"seekTvHistoy"]) {
+        [_db executeUpdate:@"CREATE TABLE if not exists seekTVDuration (id integer primary key autoincrement,movieId TEXT,episode integer,lastDuration double)"];
+    }
+    
+    //5：新下载  uniquenName 主键
+    if (![_db tableExists:@"fileModel"]) {
+        [_db executeUpdate:@"CREATE TABLE if not exists fileModel (id integer primary key autoincrement,uniquenName TEXT,movieId TEXT,episode integer,fileName TEXT,title TEXT,fileURL TEXT,iconUrl TEXT,targetPath TEXT,tempPath TEXT,filesize TEXT,filerecievesize TEXT,basepath TEXT,time TEXT,isHadDown integer,urlType integer)"];
+    }
+      
+    [_db close];
+}
+#if 0
++(BOOL)addDownLoadWithModel:(DownLoadModel *)model
+{
+    if (![_db open]) {
+        [_db close];
+        NSAssert(NO, @"数据库打开失败");
+        return NO;
+    }
+    [_db setShouldCacheStatements:YES];
+ 
+    if (model == nil || model.uniquenName == nil || model.uniquenName.length == 0) {
+        [IanAlert alertError:@"加入下载列表失败-ID为空"];
+        return NO;
+    }
+    //1:判断是否已经加入到数据库中
+    int count = [_db intForQuery:@"SELECT COUNT(uniquenName) FROM movieDown where uniquenName = ?;",model.uniquenName];
+ 
+    if (count >= 1) {
+        [IanAlert alertError:@"已经在下载列表中"];
+        return NO;
+    }
+    
+    //2:存储
+    BOOL result = [_db executeUpdate:@"insert into movieDown (movieId,downUrl,iconUrl,title,uniquenName,downedSize,episode,isHadDown ,urlType,isInvalid,addTime) values (?,?,?,?,?,?,?,?,?,?,?);",model.movieId,model.downUrl,model.iconUrl,model.title,model.uniquenName,@(model.size),@(model.episode),@(model.isDowned),@(model.urlType),@(YES),[NSDate new]];
+ 
+    [_db close];
+    if (result) {
+//        [IanAlert alertSuccess:@"加入下载列表成功"];
+    }else{
+        [IanAlert alertError:@"加入下载列表失败"];
+    }
+    return result;
+}
+
+/** 根据状态获取剧评缓存数据  */
++(NSArray *)getDownLoadDB:(BOOL)isHadDown
+{
+    if (![_db open]) {
+        [_db close];
+        NSLog(@"数据库打开失败");
+        return nil;
+    }
+    
+    [_db setShouldCacheStatements:YES];
+  
+    FMResultSet *rs = [_db executeQuery:@"SELECT * FROM movieDown where isHadDown = ? order by id asc;",@(isHadDown)];
+    
+    NSMutableArray * array = [NSMutableArray array];
+    
+    while (rs.next) {
+        DownLoadModel* model = [[DownLoadModel alloc] init];
+        model.movieId = [rs stringForColumn:@"movieId"];
+        model.episode  = [rs intForColumn:@"episode"];
+        model.uniquenName  = [rs stringForColumn:@"uniquenName"];
+        model.title  = [rs stringForColumn:@"title"];
+        model.downUrl  = [rs stringForColumn:@"downUrl"];
+        model.iconUrl = [rs stringForColumn:@"iconUrl"];
+        model.size  = [rs doubleForColumn:@"downedSize"];
+        model.isDowned  = isHadDown;
+        model.urlType  = [rs intForColumn:@"urlType"];
+        model.progress = [rs doubleForColumn:@"progress"];
+        model.isInvalid = [rs boolForColumn:@"isInvalid"];
+        
+//        if (isHadDown == NO) {
+//            model.downType = DownLoadStop;
+//        }
+        if (array.count == 0) {
+            model.downType = DownLoading;
+        }else{
+            model.downType = DownLoadWait;
+        }
+        [array addObject:model];
+    }
+    [rs close];
+    [_db close];
+    return array;
+}
+/** *  根据剧集，找到已经下载的那些剧  */
++(NSArray *)getDownLoadDBSeriesWithId:(NSString *)movieId
+{
+    if (![_db open]) {
+        [_db close];
+        NSLog(@"数据库打开失败");
+        return nil;
+    }
+    
+    [_db setShouldCacheStatements:YES]; 
+    FMResultSet *rs = [_db executeQuery:@"SELECT * FROM movieDown where movieId = ? and isHadDown = 1  order by episode asc;",movieId];
+    
+    NSMutableArray * array = [NSMutableArray array];
+    while (rs.next) {
+        DownLoadModel* model = [[DownLoadModel alloc] init];
+        model.movieId = [rs stringForColumn:@"movieId"];
+        model.episode  = [rs intForColumn:@"episode"];
+        model.uniquenName  = [rs stringForColumn:@"uniquenName"];
+        model.title  = [rs stringForColumn:@"title"];
+        model.downUrl  = [rs stringForColumn:@"downUrl"];
+        model.iconUrl = [rs stringForColumn:@"iconUrl"];
+        model.size  = [rs doubleForColumn:@"downedSize"];
+        model.urlType  = [rs intForColumn:@"urlType"];
+        model.progress = [rs doubleForColumn:@"progress"];
+        [array addObject:model];
+    }
+    [rs close];
+    [_db close];
+    return array;
+}
+
+/** *  读取那些剧被下载+不包括详细信息  */
++(NSArray *)getSeriesHadDownLoad
+{
+    if (![_db open]) {
+        [_db close];
+        NSLog(@"数据库打开失败");
+        return nil;
+    }
+    
+    [_db setShouldCacheStatements:YES];
+    FMResultSet *rs = [_db executeQuery:@"SELECT DISTINCT title,movieId,iconUrl from  movieDown where isHadDown = ? order by id desc;",@(1)];
+     NSMutableArray * array = [NSMutableArray array];
+     while (rs.next) {
+        DownedSeriesModel *model = [[DownedSeriesModel alloc]init];
+        model.title = [rs stringForColumn:@"title"] ;
+        model.movieId = [rs stringForColumn:@"movieId"];
+        model.iconUrl = [rs stringForColumn:@"iconUrl"];
+        model.seriesCount = [self getMovieCountWithMovieId:model.movieId];
+        [array addObject:model];
+    }
+    [rs close];
+    [_db close];
+    return array;
+}
+
+#pragma mark - 找出某一部剧一共下载了几部
++(int)getMovieCountWithMovieId:(NSString *)MovieId
+{
+    if (![_db open]) {
+        [_db close];   NSLog(@"数据库打开失败");  return 0; }
+    
+    [_db setShouldCacheStatements:YES];
+    
+    int count = [_db intForQuery:@"SELECT COUNT(movieId) FROM movieDown where isHadDown = 1 and movieId = ?;",MovieId];
+    return (int)count;
+}
+                                 
++(BOOL)isDBHadThisHistory:(NSString *)uniquenName
+{
+    if (![_db open]) {
+        [_db close];
+        NSLog(@"数据库打开失败");
+        return nil;
+    }
+    
+    [_db setShouldCacheStatements:YES];
+    //1:判断是否已经加入到数据库中
+    int count = [_db intForQuery:@"SELECT COUNT(uniquenName) FROM movieDown where uniquenName = ?;",uniquenName];
+    
+ 
+    if (count == 0) {
+        [_db close];
+        return NO;
+    }else{
+        [_db close];
+        return YES;
+    }
+}
++(BOOL)isDBHadThisDownLoaded:(NSString *)uniquenName downLoaded:(BOOL)downloaded
+{
+    if (![_db open]) {
+        [_db close];
+        NSLog(@"数据库打开失败");
+        return nil;
+    }
+    
+    [_db setShouldCacheStatements:YES];
+ 
+    int count = [_db intForQuery:@"SELECT COUNT(uniquenName) FROM movieDown where isHadDown = ? and uniquenName = ?;",@(downloaded),uniquenName];
+    
+    [_db close];
+    if (count == 0) {
+        return NO;
+    }else{
+        return YES;
+    }
+}
+/***  根据模型，更新数据库 */
++(BOOL)updateDownLoadWithModel:(DownLoadModel *)model
+{
+    if (model.uniquenName == nil || model.uniquenName.length == 0) {
+        [IanAlert alertError:@"MovieId为空，加入下载列表失败"];
+        return NO;
+    }
+    
+    if (![_db open]) {
+        [_db close];
+        NSLog(@"数据库打开失败");
+        return nil;
+    }
+    [_db setShouldCacheStatements:YES];
+    
+    NSString *titile,*iconUrl,*downUrl;
+    double size;
+    BOOL result = false ;
+    if (model.title != nil || model.title.length != 0) {
+        titile = model.title;
+        result = [_db executeUpdate:@"update movieDown set titile =?  where uniquenName = ?;",titile,model.uniquenName];
+    }
+    if (model.size != 0) {
+        size = model.size;
+         result = [_db executeUpdate:@"update movieDown set downedSize =? ,isHadDown=? where uniquenName = ?;",@(size),@(model.isDowned),model.uniquenName];
+    }
+    if (model.iconUrl != nil || model.iconUrl.length != 0) {
+        iconUrl = model.iconUrl;
+        result = [_db executeUpdate:@"update movieDown set iconUrl = ? where uniquenName = ?;",iconUrl,model.uniquenName];
+    }
+    if (model.downUrl != nil || model.downUrl.length != 0) {
+        downUrl = model.downUrl;
+        result = [_db executeUpdate:@"update movieDown set downUrl = ? where uniquenName = ?;",downUrl,model.uniquenName];
+    }
+    
+    [_db close];
+
+    if (!result) {
+        [IanAlert alertError:@"更改数据库信息失败"];
+    }
+    
+    return result;
+}
+
+/***  根据uniquenName删除  */
++(BOOL)deleteDownLoadWithUniquenName:(NSString *)uniquenName
+{
+    if (![_db open]) {
+        [_db close];
+        NSLog(@"数据库打开失败！");
+        return NO;
+    }
+    [_db setShouldCacheStatements:YES];
+    BOOL result = [_db executeUpdate:@"DELETE FROM movieDown where uniquenName = ?",uniquenName];
+    [_db close];
+    return result;
+}
+
+/***  根据MovieId删除已经下载的剧  */
++(BOOL)deleteDownLoadWithMovieId:(NSString *)movieId
+{
+    if (![_db open]) {
+        [_db close];
+        NSLog(@"数据库打开失败！");
+        return NO;
+    }
+    [_db setShouldCacheStatements:YES];
+    BOOL result = [_db executeUpdate:@"DELETE FROM movieDown where movieId = ? and isHadDown = ?",movieId ,@(YES)];
+    [_db close];
+    return result;
+}
+
+
+/** 没有增量跟新 删除全部剧评的缓存数据 */
++ (void)deleteAllJuPingInfoLists
+{
+    if (![_db open]) {
+        [_db close];
+        NSLog(@"数据库打开失败！");
+        return;
+    }
+    [_db setShouldCacheStatements:YES];
+    [_db executeUpdate:@"DELETE FROM jupinglists "];
+    [_db close];
+}
+#endif
+/** +++++++++++++++++++下载进度记录+++++++++++++++++++++++++++++++++++ */
+/***  根据模型，更新数据库 */
++(BOOL)updateDownLoadWithUniquenName:(NSString *)uniquenName segmengTotal:(int)segmangTotal segmengNotDown:(int)segmentNotDown haveDownSize:(double)haveDownSize
+{
+    if (uniquenName== nil || uniquenName.length == 0) {
+//        [IanAlert alertError:@"MovieId为空，更新进度失败"];
+        return NO;
+    }
+    
+    if (![_db open]) {
+        [_db close];
+        NSLog(@"数据库打开失败");
+        return nil;
+    }
+    [_db setShouldCacheStatements:YES];
+    
+    BOOL result = false ;
+    if (segmangTotal == 0) {
+//        [IanAlert alertError:@"系统出错，无法更新进度"];
+        return NO;
+    }else{
+        float progress =  1 - (float)segmentNotDown / segmangTotal;
+        result = [_db executeUpdate:@"update movieDown set progress = ?,segmentTotal = ?,segmentNotDown = ?, downedSize = ? where uniquenName = ?;",@(progress),@(segmangTotal),@(segmentNotDown),@(haveDownSize),uniquenName];
+        [_db close];
+        return result;
+    }
+}
++(NSDictionary *)getMovieTotalSegment:(NSString *)uniquenName
+{
+    if (![_db open]) {
+        [_db close];
+        NSLog(@"数据库打开失败");
+        return nil;
+    }
+    
+    [_db setShouldCacheStatements:YES];
+    
+    FMResultSet * rs = [_db executeQuery:@"SELECT * FROM movieDown where uniquenName = ?;",uniquenName];
+    int totalSegment = 0 ,notHaveSegment = 0;
+    while (rs.next) {
+        totalSegment = [rs intForColumn:@"segmentTotal"];
+        notHaveSegment = [rs intForColumn:@"segmentNotDown"];
+    }
+    [rs close];
+    [_db close];
+    return @{@"segmentTotal" : @(totalSegment),@"segmentNotDown" : @(notHaveSegment)};
+}
+
+/**
+ *  暂停http的下载，同时记录下载进度
+ *
+ *  @param uniquenName  剧集的唯一名字movieId+episode
+ *  @param progress     进度值float
+ *  @param haveDownSize 已经下载的文件大小
+ *
+ *  @return 是否保存进度成功
+ */
++(BOOL)updateDownLoadWithUniquenName:(NSString *)uniquenName progress:(float)progress haveDownSize:(double)haveDownSize
+{
+    if (uniquenName== nil || uniquenName.length == 0) {
+//        [IanAlert alertError:@"MovieId为空，更新进度失败"];
+        return NO;
+    }
+    
+    if (![_db open]) {
+        [_db close];
+        NSLog(@"数据库打开失败");
+        return nil;
+    }
+    [_db setShouldCacheStatements:YES];
+   
+    BOOL result = [_db executeUpdate:@"update movieDown set progress = ?, downedSize = ? where uniquenName = ?;",@(progress),@(haveDownSize),uniquenName];
+    [_db close];
+    return result;
+}
+  
++(BOOL)updateUrlIsInvalid:(NSString *)uniquenName
+{
+    if (uniquenName== nil || uniquenName.length == 0) {
+        [IanAlert alertError:@"MovieId为空，更新进度失败"];
+        return NO;
+    }
+    
+    if (![_db open]) {
+        [_db close];
+        NSLog(@"数据库打开失败");
+        return nil;
+    }
+    [_db setShouldCacheStatements:YES];
+    
+    BOOL result = [_db executeUpdate:@"update movieDown set isInvalid = ? where uniquenName = ?;",@(NO),uniquenName];
+    [_db close];
+    return result;
+}
+
+/*******************************2--看剧，搜索历史****************************************/
+/***  根据title 添加搜索历史 SearchHistory */
++(void)addSearchHistoryWithTitle:(NSString *)title
+{
+    if (![_db open]) {
+        [_db close];
+        NSAssert(NO, @"数据库打开失败");
+        return;
+    }
+    [_db setShouldCacheStatements:YES];
+    [_db executeUpdate:@"delete from SearchHistory where title = (select title from SearchHistory where title = ?)",title];
+    [_db executeUpdate:@"insert into SearchHistory (title) values (?);",title];
+    
+    [_db close];
+}
+/** *  读取历史记录  */
++(NSArray *)getSearchHistory
+{
+    if (![_db open]) {
+        [_db close];
+        NSLog(@"数据库打开失败");
+        return nil;
+    }
+    [_db setShouldCacheStatements:YES];
+    NSMutableArray *array = [NSMutableArray array];
+    FMResultSet *rs = [_db executeQuery:@"select * from SearchHistory order by id desc"];
+    while (rs.next) {
+        NSString *title = [rs stringForColumn:@"title"];
+        SearchHistoryModel *modle = [SearchHistoryModel searchHistoryWithName:title];
+        [array addObject:modle];
+    }
+    [rs close];
+    [_db close];
+    return array;
+}
+
+/***  数据库中是否已经存在了这个title @return yes:存在；no：不存在  */
++(BOOL)isDBHadThisSearchHistory:(NSString *)title
+{
+    if (![_db open]) {
+        [_db close];
+        NSLog(@"数据库打开失败");
+        return NO;
+    }
+    [_db setShouldCacheStatements:YES];
+    FMResultSet *rs = [_db executeQuery:@"select * from SearchHistory where title = ? order by id desc",title];
+    if (rs.columnCount == 0) {
+        return NO;
+    }else{
+        return YES;
+    }
+}
+
+/***  根据title删除  */
++(BOOL)deleteSearchHistoryWithTitle:(NSString *)title
+{
+    if (title.length == 0) { return NO;}
+    if (![_db open]) {
+        [_db close];
+        NSLog(@"数据库打开失败");
+        return NO;
+    }
+    BOOL result = [_db executeUpdate:@"delete from SearchHistory where title = ?",title];
+    return result;
+}
+/***  全部删除 */
++(BOOL)deleteAllSearchHistory
+{
+    if (![_db open]) {
+        [_db close];
+        NSLog(@"数据库打开失败");
+        return NO;
+    }
+    BOOL result = [_db executeUpdate:@"delete from SearchHistory "];
+    return result;
+}
+/*******************************2--看剧，搜索历史****************************************/
+
+
+#pragma mark - 3--记录看剧时间
+/*******************************3--记录看剧时间 - seekTVDuration****************************************/
+//movieId TEXT,episode integer,lastDuration
++(void)addSeekTVDuration:(NSString *)movieID episode:(int)episode duration:(double)duration;
+{
+    if (movieID ==  nil || movieID.length == 0 || episode == 0) {
+        return;
+    }
+    if (![_db open]) {
+        [_db close];
+        NSAssert(NO, @"数据库打开失败");
+        return;
+    }
+    [_db setShouldCacheStatements:YES];
+    int count = [_db intForQuery:@"SELECT COUNT(lastDuration) FROM seekTVDuration where movieId = ? and episode = ?;",movieID,@(episode)];
+    if (count) {
+        [_db executeUpdate:@"update seekTVDuration set lastDuration = ? where movieId = ? and episode = ?;",@(duration),movieID,@(episode)];
+    }else{
+        [_db executeUpdate:@"insert into seekTVDuration (movieId,episode,lastDuration) values (?,?,?);",movieID,@(episode),@(duration)];
+    }
+    
+    [_db close];
+}
+
+//movieId TEXT,episode integer,lastDuration
++(NSNumber *)getSeekTVDuration:(NSString *)movieID episode:(int)episode
+{
+    if (movieID ==  nil || movieID.length == 0 || episode == 0) {
+        return @0;
+    }
+    if (![_db open]) {
+        [_db close];
+        NSLog(@"数据库打开失败");
+        return @0;
+    }
+    [_db setShouldCacheStatements:YES];
+    double duration = 0.0;
+    FMResultSet *rs = [_db executeQuery:@"select lastDuration from seekTVDuration where movieId = ? and episode = ?",movieID,@(episode)];
+    while (rs.next) {
+        duration = [rs doubleForColumn:@"lastDuration"];
+        break;
+    }
+    [rs close];
+    [_db close];
+    return [NSNumber numberWithDouble:duration];
+}
+/*******************************3--记录看剧时间****************************************/
+
+#pragma mark - 下载2.0
+/*******************************5 -- 新 - 下载2.0****************************************/
++(BOOL)addFileModelWithModel:(FileModel *)model
+{
+    if (![_db open]) {
+        [_db close];
+        NSAssert(NO, @"数据库打开失败");
+        return NO;
+    }
+    [_db setShouldCacheStatements:YES];
+    
+    if (model == nil || model.uniquenName == nil || model.uniquenName.length == 0) {
+        [IanAlert alertError:@"加入下载列表失败-ID为空"];
+        return NO;
+    }
+ 
+    //1:判断是否已经加入到数据库中
+    int count = [_db intForQuery:@"SELECT COUNT(uniquenName) FROM fileModel where uniquenName = ?;",model.uniquenName];
+    
+    if (count >= 1) {
+        NSLog(@"-已经在下载列表中--");
+        return NO;
+    }
+    //2:存储
+    BOOL result = [_db executeUpdate:@"insert into fileModel (uniquenName,movieId,episode,fileName,fileURL,targetPath,tempPath,filesize,filerecievesize ,basepath,time,isHadDown,iconUrl,title,urlType) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);",model.uniquenName,model.movieId,@(model.episode),model.fileName,model.fileURL,model.targetPath,model.tempPath,model.fileSize,model.fileReceivedSize,kDownDomanPath,model.time,@(NO),model.iconUrl,model.title,@(model.urlType)];
+    
+    [_db close];
+    if (result) {
+//        [IanAlert alertSuccess:@"加入下载列表成功"];
+    }else{
+        [IanAlert alertError:@"加入下载列表失败"];
+    }
+    return result;
+}
+
+/**
+ *  根据是否下载完毕取出所有的数据
+ *
+ *  @param isDowned YES：已经下载，NO：未下载
+ *
+ *  @return 装有FileModel的模型
+ */
++(NSArray *)getFileModeArray:(BOOL)isHadDown
+{
+    if (![_db open]) {
+        [_db close];
+        NSLog(@"数据库打开失败");
+        return nil;
+    }
+    
+    [_db setShouldCacheStatements:YES];
+     
+    FMResultSet *rs = [_db executeQuery:@"SELECT * FROM fileModel where isHadDown = ? order by id asc;",@(isHadDown)];
+//    uniquenName,movieId,episode,fileName,fileURL,targetPath,tempPath,filesize,filerecievesize ,basepath,basepath,time,isHadDown,iconUrl,title
+    NSMutableArray * array = [NSMutableArray array];
+    while (rs.next) {
+        FileModel *file = [[FileModel alloc]init];
+        file.fileName = [rs stringForColumn:@"fileName"];
+        file.fileURL = [rs stringForColumn:@"fileURL"];
+        file.fileSize = [rs stringForColumn:@"filesize"];
+        file.fileReceivedSize = [rs stringForColumn:@"filerecievesize"];
+        NSString*  path1= [CommonHelper getTargetPathWithBasepath:@"Downloads" subpath:@"Video"];
+        path1 = [path1 stringByAppendingPathComponent:file.fileName];
+        file.targetPath = path1;
+        NSString*  path2= [CommonHelper getTempFolderPathWithBasepath:@"Downloads"];
+        NSString *tempfilePath= [path2 stringByAppendingPathComponent: file.fileName];
+        file.tempPath = tempfilePath;
+        file.time = [rs stringForColumn:@"time"];
+        file.iconUrl = [rs stringForColumn:@"iconUrl"];
+        file.isHadDown  = [rs boolForColumn:@"isHadDown"];
+        file.uniquenName = [rs stringForColumn:@"uniquenName"];
+        file.title = [rs stringForColumn:@"title"];
+        file.movieId = [rs stringForColumn:@"movieId"];
+        file.episode = [rs intForColumn:@"episode"];
+        file.urlType = [rs intForColumn:@"urlType"];
+        
+        file.isDownloading=NO;
+        file.isDownloading = NO;
+        file.willDownloading = NO;
+        // file.isFirstReceived = YES;
+        file.error = NO;
+        
+        NSData *fileData=[[NSFileManager defaultManager ] contentsAtPath:file.tempPath];
+        NSInteger receivedDataLength=[fileData length];//获取已经下载的部分文件的大小
+        file.fileReceivedSize=[NSString stringWithFormat:@"%ld",(long)receivedDataLength];        
+        [array addObject:file];
+    }
+    [rs close];
+    [_db close];
+    return array;
+}
+
++(void)updateFilesModeWhenDownFinish:(NSArray *)array
+{
+    if (array == nil || array.count == 0) {
+        return;
+    }
+    for (FileModel *model in array) {
+        [self updateFileModeWhenDownFinish:model];
+    }
+}
+
+
+/**
+ *  针对获取到真正的文件总大小的时候，更新文件的总大小
+ *
+ *  @param model FileModel模型
+ *
+ *  @return 是否更新成功
+ */
++(BOOL)updateFileModeTotalSize:(FileModel *)model
+{
+    if (model.uniquenName == nil || model.uniquenName.length == 0) {
+        [IanAlert alertError:@"MovieId为空，跟新下载完毕列表失败"];
+        return NO;
+    }
+    
+    if (![_db open]) {
+        [_db close];
+        NSLog(@"数据库打开失败");
+        return NO;
+    }
+    [_db setShouldCacheStatements:YES];
+ 
+    int count = [_db intForQuery:@"SELECT COUNT(1) FROM fileModel where isHadDown = ? and uniquenName = ?;",@(NO),model.uniquenName];
+    if (count == 0) {
+        NSLog(@"没有剧集记录，无法更新");
+        return NO;
+    }
+    
+    BOOL result = false ;
+    if (model.fileSize != nil || model.fileSize.length != 0 || [model.fileSize longLongValue] != 0) {
+        result = [_db executeUpdate:@"update fileModel set filesize =? where uniquenName = ?;",model.fileSize,model.uniquenName];
+    }
+    [_db close];
+    if (!result) {
+        NSLog(@"---更改数据库信息失败---");
+    }
+    
+    return result;
+}
+
+/**
+ *  下载完毕更新数据库
+ *
+ *  @param model FileModel模型
+ *
+ *  @return 是否更新成功
+ */
++(BOOL)updateFileModeWhenDownFinish:(FileModel *)model
+{
+    if (model.uniquenName == nil || model.uniquenName.length == 0) {
+        [IanAlert alertError:@"MovieId为空，跟新下载完毕列表失败"];
+        return NO;
+    }
+    
+    if (![_db open]) {
+        [_db close];
+        NSLog(@"数据库打开失败");
+        return NO;
+    }
+    [_db setShouldCacheStatements:YES];
+    /**
+     NSDictionary *filedic = [NSDictionary dictionaryWithObjectsAndKeys:fileinfo.fileName,@"filename",fileinfo.time,@"time",fileinfo.fileSize,@"filesize",fileinfo.targetPath,@"filepath",imagedata,@"fileimage", nil];
+     */
+    int count = [_db intForQuery:@"SELECT COUNT(1) FROM fileModel where isHadDown = ? and uniquenName = ?;",@(NO),model.uniquenName];
+    if (count == 0) {
+        NSLog(@"没有剧集记录，无法更新");
+        return NO;
+    }
+ 
+    BOOL result = false ;
+//    if (model.fileName != nil || model.fileName.length != 0) {
+//        result = [_db executeUpdate:@"update fileModel set title =?  where uniquenName = ?;",model.title,model.uniquenName];
+//    }
+    
+    if (model.fileSize != nil || model.fileSize.length != 0 || [model.fileSize longLongValue] != 0) {
+        result = [_db executeUpdate:@"update fileModel set filesize =? ,isHadDown=? where uniquenName = ?;",model.fileSize,@(YES),model.uniquenName];
+    }
+//    if (model.iconUrl != nil || model.iconUrl.length != 0) {
+//        result = [_db executeUpdate:@"update fileModel set iconUrl = ? where uniquenName = ?;",model.iconUrl,model.uniquenName];
+//    }
+//    if (model.fileURL != nil || model.fileURL.length != 0) {
+//        result = [_db executeUpdate:@"update fileModel set fileURL = ? where uniquenName = ?;",model.fileURL,model.uniquenName];
+//    }
+    [_db close];
+    if (!result) {
+        NSLog(@"---更改数据库信息失败---");
+    }
+    
+    return result;
+}
+
+/**
+ *  这个剧是否在下载列表
+ *
+ *  @param uniquenName uniquenName ： MovieId+epsiode
+ *
+ *  @return YES：存在 ； NO：不存在
+ */
++(BOOL)isFileModelInDB:(NSString *)uniquenName
+{
+    if (uniquenName == nil || uniquenName.length == 0) {
+        NSLog(@"剧集id为空，跟新下载完毕列表失败");
+        return NO;
+    }
+    if (![_db open]) {
+        [_db close];
+        NSLog(@"数据库打开失败");
+        return nil;
+    }
+    [_db setShouldCacheStatements:YES];
+    int count = [_db intForQuery:@"SELECT COUNT(uniquenName) FROM fileModel where uniquenName = ?;",uniquenName];
+    [_db close];
+    if (count == 0) {
+        return NO;
+    }else{
+        return YES;
+    }
+}
+
+/**
+ *  读取那些剧被下载 -- 不包括详细信息（只取到那些剧集被下载即可）
+ *
+ *  @return 下载完毕的剧集Array
+ */
++(NSArray *)getFileModelsHadDownLoad
+{
+    if (![_db open]) {
+        [_db close];
+        NSLog(@"数据库打开失败");
+        return nil;
+    }
+    
+    [_db setShouldCacheStatements:YES];
+    FMResultSet *rs = [_db executeQuery:@"SELECT DISTINCT title,movieId,iconUrl from fileModel where isHadDown = ? order by id desc;",@(YES)];
+    NSMutableArray * array = [NSMutableArray array];
+    while (rs.next) {
+        DownedSeriesModel *model = [[DownedSeriesModel alloc]init];
+        model.title = [rs stringForColumn:@"title"] ;
+        model.movieId = [rs stringForColumn:@"movieId"];
+        model.iconUrl = [rs stringForColumn:@"iconUrl"];
+        model.seriesCount = [self getFileModelCountWithMovieId:model.movieId];
+        [array addObject:model];
+    }
+    [rs close];
+    [_db close];
+    return array;
+}
+
+/**
+ *  找出某一部剧一共下载了几部
+ *
+ *  @param MovieId 剧集id
+ *
+ *  @return 下载次数
+ */
++(int)getFileModelCountWithMovieId:(NSString *)MovieId
+{
+    if (![_db open]) {
+        [_db close];   NSLog(@"数据库打开失败");  return 0; }
+    
+    [_db setShouldCacheStatements:YES];
+    
+    int count = [_db intForQuery:@"SELECT COUNT(movieId) FROM fileModel where isHadDown = 1 and movieId = ?;",MovieId];
+    return (int)count;
+}
+
+
+/**
+ *  根据剧集id，找到已经下载的那些剧
+ *
+ *  @param movieId 剧集id
+ *
+ *  @return 装有FileModel的数组
+ */
++(NSArray *)getDownLoadFileModelWithMovidId:(NSString *)movieId
+{
+    if (![_db open]) {
+        [_db close];
+        NSLog(@"数据库打开失败");
+        return nil;
+    }
+    
+    [_db setShouldCacheStatements:YES];
+    FMResultSet *rs = [_db executeQuery:@"SELECT * FROM fileModel where movieId = ? and isHadDown = 1  order by episode asc;",movieId];
+    
+    NSMutableArray * array = [NSMutableArray array];
+    while (rs.next) {
+        FileModel *file = [[FileModel alloc]init];
+        file.fileName = [rs stringForColumn:@"fileName"];
+        file.fileURL = [rs stringForColumn:@"fileURL"];
+        file.fileSize = [rs stringForColumn:@"filesize"];
+        file.fileReceivedSize = [rs stringForColumn:@"filerecievesize"];
+        NSString*  path1= [CommonHelper getTargetPathWithBasepath:kDownDomanPath subpath:@"Video"];
+        path1 = [path1 stringByAppendingPathComponent:file.fileName];
+        file.targetPath = path1;
+        NSString*  path2= [CommonHelper getTempFolderPathWithBasepath:kDownDomanPath];
+        NSString *tempfilePath= [path2 stringByAppendingPathComponent: file.fileName];
+        file.tempPath = tempfilePath;
+        file.iconUrl = [rs stringForColumn:@"iconUrl"];
+        file.uniquenName = [rs stringForColumn:@"uniquenName"];
+        file.title = [rs stringForColumn:@"title"];
+        file.movieId = [rs stringForColumn:@"movieId"];
+        file.episode = [rs intForColumn:@"episode"];
+        file.urlType = [rs intForColumn:@"urlType"];
+        [array addObject:file];
+    }
+    [rs close];
+    [_db close];
+    return array;
+}
+
+/**
+ *  是否这部剧已经下载完毕
+ *
+ *  @param uniquenName 剧集Id
+ *
+ *  @return YES:下载完毕 ； NO：没有下载完毕
+ */
++(BOOL)isThisHadLoaded:(NSString *)movieID episode:(int)episode
+{
+    if (movieID ==  nil || movieID.length == 0) {
+        return NO;
+    }
+    if (![_db open]) {
+        [_db close];
+        NSLog(@"数据库打开失败");
+        return NO;
+    }
+    
+    NSUInteger count = [_db intForQuery:@"SELECT COUNT(1) FROM fileModel where movieId = ? and episode = ?;",movieID,@(episode)];
+    [_db close];
+    
+    if (count  == 0) {
+        return NO;
+    }else{
+        return YES;
+    }
+}
+
+/**
+ *  根据uniquenName删除已经下载的剧 -- 只会删除一个
+ *
+ *  @param uniquenName MovieId+eposide
+ *
+ *  @return YES:成功；NO：失败
+ */
++(BOOL)delFileModelWithUniquenName:(NSString *)uniquenName
+{
+    if (![_db open]) {
+        [_db close];
+        NSLog(@"数据库打开失败！");
+        return NO;
+    }
+    [_db setShouldCacheStatements:YES];
+    BOOL result = [_db executeUpdate:@"DELETE FROM fileModel where uniquenName = ?",uniquenName];
+    [_db close];
+    return result;
+}
+ 
+/**
+ *  根据MovieId删除已经下载的剧 -- 会删除多个
+ *
+ *  @param movieId 剧集Id
+ *
+ *  @return YES:成功；NO：失败
+ */
++(BOOL)delFileModelsWithMovieId:(NSString *)movieId
+{
+    if (![_db open]) {
+        [_db close];
+        NSLog(@"数据库打开失败！");
+        return NO;
+    }
+    [_db setShouldCacheStatements:YES];
+    BOOL result = [_db executeUpdate:@"DELETE FROM fileModel where movieId = ? and isHadDown = ?",movieId ,@(YES)];
+    [_db close];
+    return result;
+}
+
+/**
+ *  是否这部剧已经下载完毕
+ *
+ *  @param uniquenName 剧集Id
+ *
+ *  @return YES:下载完毕 ； NO：没有下载完毕
+ */
++(NSDictionary *)isHadDowned:(NSString *)movieID episode:(int)episode
+{
+    int urlType = 0;
+    
+    if (movieID ==  nil || movieID.length == 0) {
+        return @{@"isHad" : @(NO) , @"urlType" : @(0)};
+    }
+    if (![_db open]) {
+        [_db close];
+        NSLog(@"数据库打开失败");
+        return @{@"isHad" : @(NO) , @"urlType" : @(0)};
+    }
+    
+    int count = [_db intForQuery:@"SELECT COUNT(uniquenName) FROM fileModel where movieId = ? and isHadDown = ? and episode = ?;",movieID,@(YES),@(episode)];
+    if (count == 0) {
+        [_db close];
+        return @{@"isHad" : @(NO) , @"urlType" : @(0)};
+    }else{
+        FMResultSet *rs = [_db executeQuery:@"select urlType from fileModel where movieId = ? and episode = ? order by id desc",movieID,@(episode)];
+        while (rs.next) {
+            urlType  = [rs intForColumn:@"urlType"];
+        }
+        [_db close];
+        return @{@"isHad" : @(YES) , @"urlType" : @(urlType)};
+    }
+}
+
+/*******************************5 -- 新 - 下载****************************************/
+
+
+ 
+@end
+
+
+/**
+ //0：站点图片基础配置
+ if (![_db tableExists:@"playSite"]) {
+ //SearchHistory title
+ [_db executeUpdate:@"CREATE TABLE if not exists playSite (id integer primary key autoincrement,title TEXT,iconUrl TEXT,realIconUrl TEXT);"];
+ 
+ [_db executeUpdate:@"insert into playSite (title,iconUrl,realIconUrl) values ('优酷','youku','youku');"];
+ [_db executeUpdate:@"insert into playSite (title,iconUrl,realIconUrl) values ('土豆','tudou','tudou');"];
+ [_db executeUpdate:@"insert into playSite (title,iconUrl,realIconUrl) values ('搜狐','sohu','sohu');"];
+ [_db executeUpdate:@"insert into playSite (title,iconUrl,realIconUrl) values ('56网','56','56');"];
+ [_db executeUpdate:@"insert into playSite (title,iconUrl,realIconUrl) values ('56网','56com','56com');"];
+ [_db executeUpdate:@"insert into playSite (title,iconUrl,realIconUrl) values ('乐视','leshi','leshi');"];
+ [_db executeUpdate:@"insert into playSite (title,iconUrl,realIconUrl) values ('乐视','letv','letv');"];
+ [_db executeUpdate:@"insert into playSite (title,iconUrl,realIconUrl) values ('PPTV','pptv','pptv');"];
+ [_db executeUpdate:@"insert into playSite (title,iconUrl,realIconUrl) values ('风行网','fengxing','fengxing');"];
+ [_db executeUpdate:@"insert into playSite (title,iconUrl,realIconUrl) values ('腾讯','qq','qq');"];
+ [_db executeUpdate:@"insert into playSite (title,iconUrl,realIconUrl) values ('新浪','sina','sina');"];
+ [_db executeUpdate:@"insert into playSite (title,iconUrl,realIconUrl) values ('央视网','cntv','cntv');"];
+ [_db executeUpdate:@"insert into playSite (title,iconUrl,realIconUrl) values ('华数','hunantv','hunantv');"];
+ [_db executeUpdate:@"insert into playSite (title,iconUrl,realIconUrl) values ('芒果','imgo','imgo');"];
+ [_db executeUpdate:@"insert into playSite (title,iconUrl,realIconUrl) values ('芒果','hunantv','hunantv');"];
+ [_db executeUpdate:@"insert into playSite (title,iconUrl,realIconUrl) values ('B站','bilibili','bilibili');"];
+ [_db executeUpdate:@"insert into playSite (title,iconUrl,realIconUrl) values ('A站','acfun','acfun');"];
+ [_db executeUpdate:@"insert into playSite (title,iconUrl,realIconUrl) values ('百度云','yunpan','yunpan');"];
+ [_db executeUpdate:@"insert into playSite (title,iconUrl,realIconUrl) values ('百度云','baiduyun1','baiduyun1');"];
+ [_db executeUpdate:@"insert into playSite (title,iconUrl,realIconUrl) values ('115','115','115');"];
+ }
+ */
+
+

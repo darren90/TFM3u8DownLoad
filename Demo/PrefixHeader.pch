@@ -1,0 +1,18 @@
+//
+//  PrefixHeader.pch
+//  TFM3u8DownLoad
+//
+//  Created by Tengfei on 15/11/15.
+//  Copyright © 2015年 tengfei. All rights reserved.
+//
+
+#ifndef PrefixHeader_pch
+#define PrefixHeader_pch
+
+
+#import "DatabaseTool.h"
+
+#define kDownDomanPath @"Downloads"  //下载的地址
+
+
+#endif /* PrefixHeader_pch */
