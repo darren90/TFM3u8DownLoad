@@ -16,3 +16,6 @@
 参照Demo[http://code4app.com/ios/DownLoadManager/52a3248dcb7e84c30d8b5a8a](http://code4app.com/ios/DownLoadManager/52a3248dcb7e84c30d8b5a8a),Demo中使用的是MRC并且存在一定的bug，现已经修改为ARC，并且修复bug。
  
 ---
+
+
+### 2015年12月16日更新 逻辑存在一些问题，暂停更新，年后有时间接着更新
