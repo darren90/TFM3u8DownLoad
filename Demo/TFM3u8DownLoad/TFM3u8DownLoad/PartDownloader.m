@@ -9,7 +9,7 @@
 #import "PartDownloader.h"
 #import "Reachability.h"
 #import "ASIHTTPRequest.h"
-#import "DownLoadModel.h"
+//#import "DownLoadModel.h"
 #import "CommonHelper.h"
 #import "M3u8PartInfo.h"
 #import "FileModel.h"

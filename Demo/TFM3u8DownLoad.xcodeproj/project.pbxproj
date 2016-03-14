@@ -51,6 +51,7 @@
 		FEF0EF101C971290000FAD32 /* M3u8FileModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FEF0EF0A1C971290000FAD32 /* M3u8FileModel.m */; };
 		FEF0EF111C971290000FAD32 /* M3u8PartInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = FEF0EF0C1C971290000FAD32 /* M3u8PartInfo.m */; };
 		FEF0EF121C971290000FAD32 /* PartDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = FEF0EF0E1C971290000FAD32 /* PartDownloader.m */; };
+		FEF0EF151C97164F000FAD32 /* FilesDownManage.m in Sources */ = {isa = PBXBuildFile; fileRef = FEF0EF141C97164F000FAD32 /* FilesDownManage.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -163,6 +164,8 @@
 		FEF0EF0C1C971290000FAD32 /* M3u8PartInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = M3u8PartInfo.m; sourceTree = "<group>"; };
 		FEF0EF0D1C971290000FAD32 /* PartDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PartDownloader.h; sourceTree = "<group>"; };
 		FEF0EF0E1C971290000FAD32 /* PartDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PartDownloader.m; sourceTree = "<group>"; };
+		FEF0EF131C97164F000FAD32 /* FilesDownManage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilesDownManage.h; sourceTree = "<group>"; };
+		FEF0EF141C97164F000FAD32 /* FilesDownManage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilesDownManage.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -397,6 +400,8 @@
 				FE1164E11BF83AA100094591 /* DownloadDelegate.h */,
 				FE1164E21BF83AA100094591 /* FileModel.h */,
 				FE1164E31BF83AA100094591 /* FileModel.m */,
+				FEF0EF131C97164F000FAD32 /* FilesDownManage.h */,
+				FEF0EF141C97164F000FAD32 /* FilesDownManage.m */,
 				FEF0EF061C971290000FAD32 /* M3u8DownloadDelegate.h */,
 				FEF0EF071C971290000FAD32 /* M3u8DownManage.h */,
 				FEF0EF081C971290000FAD32 /* M3u8DownManage.m */,
@@ -554,6 +559,7 @@
 				FE1164B81BF839E300094591 /* FMDatabase.m in Sources */,
 				FE1164AF1BF839E300094591 /* ASIHTTPRequest.m in Sources */,
 				FE1164AA1BF839E300094591 /* ASIAuthenticationDialog.m in Sources */,
+				FEF0EF151C97164F000FAD32 /* FilesDownManage.m in Sources */,
 				FE1164AE1BF839E300094591 /* ASIFormDataRequest.m in Sources */,
 				FE1164D61BF83A7000094591 /* DownManagerViewController.m in Sources */,
 				FE11644C1BF8362E00094591 /* AppDelegate.m in Sources */,
