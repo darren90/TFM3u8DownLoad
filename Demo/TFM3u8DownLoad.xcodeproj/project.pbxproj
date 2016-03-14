@@ -47,7 +47,10 @@
 		FE1164DD1BF83A7000094591 /* FilesCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FE1164D41BF83A7000094591 /* FilesCell.m */; };
 		FE1164E61BF83AA100094591 /* CommonHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = FE1164E01BF83AA100094591 /* CommonHelper.m */; };
 		FE1164E71BF83AA100094591 /* FileModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FE1164E31BF83AA100094591 /* FileModel.m */; };
-		FE1164E81BF83AA100094591 /* FilesDownManage.m in Sources */ = {isa = PBXBuildFile; fileRef = FE1164E51BF83AA100094591 /* FilesDownManage.m */; };
+		FEF0EF0F1C971290000FAD32 /* M3u8DownManage.m in Sources */ = {isa = PBXBuildFile; fileRef = FEF0EF081C971290000FAD32 /* M3u8DownManage.m */; };
+		FEF0EF101C971290000FAD32 /* M3u8FileModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FEF0EF0A1C971290000FAD32 /* M3u8FileModel.m */; };
+		FEF0EF111C971290000FAD32 /* M3u8PartInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = FEF0EF0C1C971290000FAD32 /* M3u8PartInfo.m */; };
+		FEF0EF121C971290000FAD32 /* PartDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = FEF0EF0E1C971290000FAD32 /* PartDownloader.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -150,9 +153,16 @@
 		FE1164E11BF83AA100094591 /* DownloadDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadDelegate.h; sourceTree = "<group>"; };
 		FE1164E21BF83AA100094591 /* FileModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileModel.h; sourceTree = "<group>"; };
 		FE1164E31BF83AA100094591 /* FileModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileModel.m; sourceTree = "<group>"; };
-		FE1164E41BF83AA100094591 /* FilesDownManage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilesDownManage.h; sourceTree = "<group>"; };
-		FE1164E51BF83AA100094591 /* FilesDownManage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilesDownManage.m; sourceTree = "<group>"; };
 		FE1164E91BF83AC900094591 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
+		FEF0EF061C971290000FAD32 /* M3u8DownloadDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = M3u8DownloadDelegate.h; sourceTree = "<group>"; };
+		FEF0EF071C971290000FAD32 /* M3u8DownManage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = M3u8DownManage.h; sourceTree = "<group>"; };
+		FEF0EF081C971290000FAD32 /* M3u8DownManage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = M3u8DownManage.m; sourceTree = "<group>"; };
+		FEF0EF091C971290000FAD32 /* M3u8FileModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = M3u8FileModel.h; sourceTree = "<group>"; };
+		FEF0EF0A1C971290000FAD32 /* M3u8FileModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = M3u8FileModel.m; sourceTree = "<group>"; };
+		FEF0EF0B1C971290000FAD32 /* M3u8PartInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = M3u8PartInfo.h; sourceTree = "<group>"; };
+		FEF0EF0C1C971290000FAD32 /* M3u8PartInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = M3u8PartInfo.m; sourceTree = "<group>"; };
+		FEF0EF0D1C971290000FAD32 /* PartDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PartDownloader.h; sourceTree = "<group>"; };
+		FEF0EF0E1C971290000FAD32 /* PartDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PartDownloader.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -387,8 +397,15 @@
 				FE1164E11BF83AA100094591 /* DownloadDelegate.h */,
 				FE1164E21BF83AA100094591 /* FileModel.h */,
 				FE1164E31BF83AA100094591 /* FileModel.m */,
-				FE1164E41BF83AA100094591 /* FilesDownManage.h */,
-				FE1164E51BF83AA100094591 /* FilesDownManage.m */,
+				FEF0EF061C971290000FAD32 /* M3u8DownloadDelegate.h */,
+				FEF0EF071C971290000FAD32 /* M3u8DownManage.h */,
+				FEF0EF081C971290000FAD32 /* M3u8DownManage.m */,
+				FEF0EF091C971290000FAD32 /* M3u8FileModel.h */,
+				FEF0EF0A1C971290000FAD32 /* M3u8FileModel.m */,
+				FEF0EF0B1C971290000FAD32 /* M3u8PartInfo.h */,
+				FEF0EF0C1C971290000FAD32 /* M3u8PartInfo.m */,
+				FEF0EF0D1C971290000FAD32 /* PartDownloader.h */,
+				FEF0EF0E1C971290000FAD32 /* PartDownloader.m */,
 			);
 			path = TFM3u8DownLoad;
 			sourceTree = "<group>";
@@ -525,12 +542,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FE1164E81BF83AA100094591 /* FilesDownManage.m in Sources */,
 				FE1164DB1BF83A7000094591 /* DownloadedCell.m in Sources */,
 				FE1164AB1BF839E300094591 /* ASIDataCompressor.m in Sources */,
 				FE1164D51BF83A7000094591 /* DowningController.m in Sources */,
+				FEF0EF121C971290000FAD32 /* PartDownloader.m in Sources */,
 				FE1164E71BF83AA100094591 /* FileModel.m in Sources */,
 				FE1164B51BF839E300094591 /* NSString+TF.m in Sources */,
+				FEF0EF101C971290000FAD32 /* M3u8FileModel.m in Sources */,
 				FE1164E61BF83AA100094591 /* CommonHelper.m in Sources */,
 				FE11644F1BF8362E00094591 /* ViewController.m in Sources */,
 				FE1164B81BF839E300094591 /* FMDatabase.m in Sources */,
@@ -546,11 +564,13 @@
 				FE1164D81BF83A7000094591 /* ContentModel.m in Sources */,
 				FE1164D71BF83A7000094591 /* FilesViewController.m in Sources */,
 				FE1164B11BF839E300094591 /* ASINetworkQueue.m in Sources */,
+				FEF0EF111C971290000FAD32 /* M3u8PartInfo.m in Sources */,
 				FE1164B21BF839E300094591 /* ASINSStringAdditions.m in Sources */,
 				FE1164B71BF839E300094591 /* DatabaseTool.m in Sources */,
 				FE1164B41BF839E300094591 /* Reachability.m in Sources */,
 				FE1164AC1BF839E300094591 /* ASIDataDecompressor.m in Sources */,
 				FE1164B91BF839E300094591 /* FMDatabaseAdditions.m in Sources */,
+				FEF0EF0F1C971290000FAD32 /* M3u8DownManage.m in Sources */,
 				FE1164AD1BF839E300094591 /* ASIDownloadCache.m in Sources */,
 				FE1164D91BF83A7000094591 /* DowningCell.m in Sources */,
 				FE1164BB1BF839E300094591 /* FMDatabaseQueue.m in Sources */,
