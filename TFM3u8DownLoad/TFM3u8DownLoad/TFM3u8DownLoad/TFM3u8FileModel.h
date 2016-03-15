@@ -17,7 +17,8 @@
 /** 唯一 */
 @property (nonatomic, copy) NSString * uniquenName;//唯一主键
 
-@property (nonatomic,copy)NSString * fileName;//存储的文件名
+@property(nonatomic,copy)NSString *fileName;//下载文件存储的的名字//XXX.mp4
+@property(nonatomic,copy)NSString *fileSize;//总大小
 
 @property (nonatomic, copy) NSString * title;
 @property (nonatomic,copy)NSString * iconUrl;//剧照
@@ -42,7 +43,6 @@
 @property (nonatomic,strong)M3u8PartInfo *m3u8Info;
 
 @end
-
 
 
 

@@ -9,7 +9,6 @@
 #import "TFM3u8Downloader.h"
 #import "Reachability.h"
 #import "ASIHTTPRequest.h"
-#import "FileModel.h"
 #import "WdCleanCaches.h"
 #import "TFDownLoadTools.h"
 #import "RegexKitLite.h"
@@ -441,10 +440,10 @@ static   TFM3u8Downloader *sharedFilesDownManage = nil;
         
         NSLog(@"-m3u8-part:%@,-progress:%f",self.fileInfo.uniquenName,progress);
 #pragma mark - 下载进度的代理
-        if ([self.partDownloadDelegate respondsToSelector:@selector(partDownloadProgress:)]) {
+        if ([self.m3u8DownloadDelegate respondsToSelector:@selector(m3u8DownloaderProgress:)]) {
             self.fileInfo.progress = progress;
             [self.tranferReques setUserInfo:[NSDictionary dictionaryWithObject:self.fileInfo forKey:@"File"]];//设置上下文的文件基本信息
-            [self.partDownloadDelegate partDownloadProgress:self.tranferReques];
+            [self.m3u8DownloadDelegate m3u8DownloaderProgress:self.tranferReques];
         }
     }
     if (self.m3u8PartList.count == 0) {//全部片段已经下载完毕
@@ -504,8 +503,8 @@ static   TFM3u8Downloader *sharedFilesDownManage = nil;
                                                 usedEncoding:&encoding
                                                        error:&error];
     if(data == nil)   {
-        if([self.partDownloadDelegate respondsToSelector:@selector(partDownloadFailed:)])  {
-            [self.partDownloadDelegate partDownloadFailed:self.tranferReques];
+        if([self.m3u8DownloadDelegate respondsToSelector:@selector(m3u8DownloaderFailed:)])  {
+            [self.m3u8DownloadDelegate m3u8DownloaderFailed:self.tranferReques];
         }
         
         return;
@@ -594,8 +593,8 @@ static   TFM3u8Downloader *sharedFilesDownManage = nil;
     }
     NSLog(@"总时长：%ld:%ld (分:秒)",length / 60,length % 60);
     if (segments.count == 0) {//没有片段，m3u8文件列表出错，
-        if([self.partDownloadDelegate respondsToSelector:@selector(partDownloadFailed:)])  {
-            [self.partDownloadDelegate partDownloadFailed:self.tranferReques];
+        if([self.m3u8DownloadDelegate respondsToSelector:@selector(m3u8DownloaderFailed:)])  {
+            [self.m3u8DownloadDelegate m3u8DownloaderFailed:self.tranferReques];
         }
     }else{
         [self.m3u8PartList removeAllObjects];
@@ -653,8 +652,8 @@ static   TFM3u8Downloader *sharedFilesDownManage = nil;
     self.fileInfo.fileSize = [NSString stringWithFormat:@"%f",downedSize];
     [_tranferReques setUserInfo:[NSDictionary dictionaryWithObject:self.fileInfo forKey:@"File"]];//设置上下文的文件基本信息
     
-    if ([self.partDownloadDelegate respondsToSelector:@selector(partDownloadFinished:)]) {
-        [self.partDownloadDelegate partDownloadFinished:self.tranferReques];
+    if ([self.m3u8DownloadDelegate respondsToSelector:@selector(m3u8DownloaderFinished:)]) {
+        [self.m3u8DownloadDelegate m3u8DownloaderFinished:self.tranferReques];
     }
     
     return @"m3u8-----";

@@ -16,16 +16,6 @@ typedef enum {//url类型
 } FileUrlType;
 
 @interface FileModel : NSObject
-//@property (nonatomic,assign) float size;
-//@property (nonatomic, strong) NSDate * addTime;
-///** m3u8 类型的下载地址 + http类型的下载地址 */
-//@property (nonatomic,copy)NSString * downUrl;
-///** 下载类型 存放DownLoadType */
-//@property (nonatomic,assign)int downType;
-///** 地址是否是有效的 */
-//@property (nonatomic,assign)BOOL isInvalid;
-///** 下载状态:正在下载/未下载/下载完毕 */
-//@property (nonatomic,assign)int downLoadState;
 
 /** 唯一 */
 @property (nonatomic, copy) NSString * uniquenName;//唯一, movieId+episode

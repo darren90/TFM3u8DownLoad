@@ -15,9 +15,9 @@
 @class ASIHTTPRequest;
 @protocol TFM3u8DownloaderDelegate <NSObject>
 @optional
--(void)partDownloadFinished:(ASIHTTPRequest *)request;
--(void)partDownloadFailed:(ASIHTTPRequest *)request;
--(void)partDownloadProgress:(ASIHTTPRequest *)request;
+-(void)m3u8DownloaderFinished:(ASIHTTPRequest *)request;
+-(void)m3u8DownloaderFailed:(ASIHTTPRequest *)request;
+-(void)m3u8DownloaderProgress:(ASIHTTPRequest *)request;
 @end
 
 
@@ -30,9 +30,8 @@
 //接收的参数
 @property(nonatomic,strong)TFM3u8FileModel *filefileInfo;
 
-@property(nonatomic,strong)FileModel *fileInfo;
+@property(nonatomic,strong)TFM3u8FileModel *fileInfo;
 
-@property (nonatomic,copy)NSString * uniquenName;
 
 ///仅仅用于在更新进度时，传递外部参数，无实际意义，
 @property (nonatomic,strong)ASIHTTPRequest *tranferReques;
@@ -47,9 +46,9 @@
 -(void)stopDownLoad;
 //删除下载
 -(void)deleteDownLoad;
-//
--(void)cleanDownLoad;
+
+
 //无用的一些逻辑
-@property(nonatomic,weak)id<TFM3u8DownloaderDelegate> partDownloadDelegate;//下载部分的delegate
+@property(nonatomic,weak)id<TFM3u8DownloaderDelegate> m3u8DownloadDelegate;//下载部分的delegate
 
 @end
