@@ -12,7 +12,6 @@
 
 //下载
 #import "FileModel.h"
-#import "CommonHelper.h"
 #import "ContentModel.h"
 
 static FMDatabase *_db;
@@ -330,6 +329,80 @@ static FMDatabase *_db;
     [_db setShouldCacheStatements:YES];
     BOOL result = [_db executeUpdate:@"DELETE FROM fileModel where uniquenName = ?",uniquenName];
     [_db close];
+    return result;
+}
+
+
+/**
+ *  针对m3u8的下载，找到已经下载的片段
+ *
+ *  @param uniquenName 唯一的名字
+ *
+ *  @return 已经下载的片段数（Int）
+ */
++(int)getMovieHadDownSegment:(NSString *)uniqueName{
+    if (uniqueName == nil || uniqueName.length == 0) {
+//        [IanAlert alertError:@"MovieId为空，跟新下载完毕列表失败"];
+        return 0;
+    }
+    
+    if (![_db open]) {
+        [_db close];
+        NSLog(@"数据库打开失败");
+        return 0;
+    }
+    
+    [_db setShouldCacheStatements:YES];
+    
+    FMResultSet * rs = [_db executeQuery:@"SELECT * FROM fileModel where uniquenName = ?;",uniqueName];
+    int hadDownSegment = 0;
+    
+    while (rs.next) {
+        hadDownSegment = [rs intForColumn:@"segmentHadDown"];
+    }
+    [rs close];
+    [_db close];
+    
+    return hadDownSegment;
+}
+
+/**
+ *  针对m3u8的下载，暂停下载的时候：存储已经下载了多少片段
+ *
+ *  @param model FileModel模型
+ *
+ *  @return 是否更新成功
+ */
++(BOOL)updatePartWhenDownStoWithPprogress:(float)progress segmentHadDown:(int)segmentHadDown uniqueName:(NSString *)uniqueName
+{
+    if (uniqueName == nil || uniqueName.length == 0) {
+//        [IanAlert alertError:@"MovieId为空，跟新下载完毕列表失败"];
+        return NO;
+    }
+    
+    if (![_db open]) {
+        [_db close];
+        NSLog(@"updateM3u8Part -数据库打开失败");
+        return NO;
+    }
+    [_db setShouldCacheStatements:YES];
+    
+    int count = [_db intForQuery:@"SELECT COUNT(1) FROM fileModel where isHadDown = ? and uniquenName = ?;",@(NO),uniqueName];
+    if (count == 0) {
+        NSLog(@"updateM3u8Part -没有剧集记录，无法更新");
+        return NO;
+    }
+    
+    BOOL result = NO ;
+    if (progress != 0.0 || segmentHadDown != 0 || progress <= 1.0) {
+        result = [_db executeUpdate:@"update fileModel set progress =? , segmentHadDown = ? where uniquenName = ?;",@(progress),@(segmentHadDown),uniqueName];
+    }
+    
+    [_db close];
+    if (!result) {
+        NSLog(@"---updateM3u8Part -更改数据库信息失败---");
+    }
+    
     return result;
 }
 /*******************************5 -- 新 - 下载****************************************/

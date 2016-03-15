@@ -86,7 +86,9 @@
  */
 +(BOOL)delFileModelWithUniquenName:(NSString *)uniquenName;
  
- 
++(int)getMovieHadDownSegment:(NSString *)uniqueName;
+
++(BOOL)updatePartWhenDownStoWithPprogress:(float)progress segmentHadDown:(int)segmentHadDown uniqueName:(NSString *)uniqueName;
 /*******************************5 -- 新 - 下载2.0****************************************/
 
 @end

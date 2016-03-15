@@ -8,6 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		89387CD01C98432400AD29AE /* TFDownLoadTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89387CCF1C98432400AD29AE /* TFDownLoadTools.m */; };
+		89387CD31C98444B00AD29AE /* TFM3u8FileModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 89387CD21C98444B00AD29AE /* TFM3u8FileModel.m */; };
+		89387CD61C98448400AD29AE /* TFM3u8Downloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 89387CD51C98448400AD29AE /* TFM3u8Downloader.m */; };
+		89387CD91C9847CA00AD29AE /* FileModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 89387CD81C9847CA00AD29AE /* FileModel.m */; };
+		89387D391C984CD500AD29AE /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 89387D381C984CD500AD29AE /* libz.tbd */; };
+		89387D761C9857F800AD29AE /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = 89387D751C9857F800AD29AE /* RegexKitLite.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		89387D771C985B1500AD29AE /* libicucore.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 89387D3A1C984D3300AD29AE /* libicucore.tbd */; };
 		FE1164491BF8362E00094591 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FE1164481BF8362E00094591 /* main.m */; };
 		FE11644C1BF8362E00094591 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FE11644B1BF8362E00094591 /* AppDelegate.m */; };
 		FE11644F1BF8362E00094591 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE11644E1BF8362E00094591 /* ViewController.m */; };
@@ -35,17 +41,8 @@
 		FE1164BA1BF839E300094591 /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = FE1164A41BF839E300094591 /* FMDatabasePool.m */; };
 		FE1164BB1BF839E300094591 /* FMDatabaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = FE1164A61BF839E300094591 /* FMDatabaseQueue.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		FE1164BC1BF839E300094591 /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = FE1164A91BF839E300094591 /* FMResultSet.m */; };
-		FE1164BE1BF83A0800094591 /* libz.1.2.5.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = FE1164BD1BF83A0800094591 /* libz.1.2.5.tbd */; };
 		FE1164C01BF83A1300094591 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = FE1164BF1BF83A1300094591 /* libsqlite3.tbd */; };
-		FE1164D51BF83A7000094591 /* DowningController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE1164C41BF83A7000094591 /* DowningController.m */; };
-		FE1164D61BF83A7000094591 /* DownManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE1164C61BF83A7000094591 /* DownManagerViewController.m */; };
-		FE1164D71BF83A7000094591 /* FilesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE1164C81BF83A7000094591 /* FilesViewController.m */; };
 		FE1164D81BF83A7000094591 /* ContentModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FE1164CB1BF83A7000094591 /* ContentModel.m */; };
-		FE1164D91BF83A7000094591 /* DowningCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FE1164CE1BF83A7000094591 /* DowningCell.m */; };
-		FE1164DA1BF83A7000094591 /* DowningCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FE1164CF1BF83A7000094591 /* DowningCell.xib */; };
-		FE1164DB1BF83A7000094591 /* DownloadedCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FE1164D11BF83A7000094591 /* DownloadedCell.m */; };
-		FE1164DC1BF83A7000094591 /* DownloadedCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FE1164D21BF83A7000094591 /* DownloadedCell.xib */; };
-		FE1164DD1BF83A7000094591 /* FilesCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FE1164D41BF83A7000094591 /* FilesCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,6 +65,17 @@
 /* Begin PBXFileReference section */
 		89387CCE1C98432400AD29AE /* TFDownLoadTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFDownLoadTools.h; sourceTree = "<group>"; };
 		89387CCF1C98432400AD29AE /* TFDownLoadTools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFDownLoadTools.m; sourceTree = "<group>"; };
+		89387CD11C98444B00AD29AE /* TFM3u8FileModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFM3u8FileModel.h; sourceTree = "<group>"; };
+		89387CD21C98444B00AD29AE /* TFM3u8FileModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFM3u8FileModel.m; sourceTree = "<group>"; };
+		89387CD41C98448400AD29AE /* TFM3u8Downloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFM3u8Downloader.h; sourceTree = "<group>"; };
+		89387CD51C98448400AD29AE /* TFM3u8Downloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFM3u8Downloader.m; sourceTree = "<group>"; };
+		89387CD71C9847CA00AD29AE /* FileModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileModel.h; sourceTree = "<group>"; };
+		89387CD81C9847CA00AD29AE /* FileModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileModel.m; sourceTree = "<group>"; };
+		89387D361C984C8100AD29AE /* libxml2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.tbd; path = usr/lib/libxml2.tbd; sourceTree = SDKROOT; };
+		89387D381C984CD500AD29AE /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		89387D3A1C984D3300AD29AE /* libicucore.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libicucore.tbd; path = usr/lib/libicucore.tbd; sourceTree = SDKROOT; };
+		89387D741C9857F800AD29AE /* RegexKitLite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegexKitLite.h; sourceTree = "<group>"; };
+		89387D751C9857F800AD29AE /* RegexKitLite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegexKitLite.m; sourceTree = "<group>"; };
 		FE1164441BF8362E00094591 /* TFM3u8DownLoad.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TFM3u8DownLoad.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FE1164481BF8362E00094591 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		FE11644A1BF8362E00094591 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -129,22 +137,8 @@
 		FE1164A91BF839E300094591 /* FMResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMResultSet.m; sourceTree = "<group>"; };
 		FE1164BD1BF83A0800094591 /* libz.1.2.5.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.1.2.5.tbd; path = usr/lib/libz.1.2.5.tbd; sourceTree = SDKROOT; };
 		FE1164BF1BF83A1300094591 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
-		FE1164C31BF83A7000094591 /* DowningController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DowningController.h; sourceTree = "<group>"; };
-		FE1164C41BF83A7000094591 /* DowningController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DowningController.m; sourceTree = "<group>"; };
-		FE1164C51BF83A7000094591 /* DownManagerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownManagerViewController.h; sourceTree = "<group>"; };
-		FE1164C61BF83A7000094591 /* DownManagerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownManagerViewController.m; sourceTree = "<group>"; };
-		FE1164C71BF83A7000094591 /* FilesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilesViewController.h; sourceTree = "<group>"; };
-		FE1164C81BF83A7000094591 /* FilesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilesViewController.m; sourceTree = "<group>"; };
 		FE1164CA1BF83A7000094591 /* ContentModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContentModel.h; sourceTree = "<group>"; };
 		FE1164CB1BF83A7000094591 /* ContentModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContentModel.m; sourceTree = "<group>"; };
-		FE1164CD1BF83A7000094591 /* DowningCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DowningCell.h; sourceTree = "<group>"; };
-		FE1164CE1BF83A7000094591 /* DowningCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DowningCell.m; sourceTree = "<group>"; };
-		FE1164CF1BF83A7000094591 /* DowningCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DowningCell.xib; sourceTree = "<group>"; };
-		FE1164D01BF83A7000094591 /* DownloadedCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadedCell.h; sourceTree = "<group>"; };
-		FE1164D11BF83A7000094591 /* DownloadedCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadedCell.m; sourceTree = "<group>"; };
-		FE1164D21BF83A7000094591 /* DownloadedCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DownloadedCell.xib; sourceTree = "<group>"; };
-		FE1164D31BF83A7000094591 /* FilesCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilesCell.h; sourceTree = "<group>"; };
-		FE1164D41BF83A7000094591 /* FilesCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilesCell.m; sourceTree = "<group>"; };
 		FE1164E91BF83AC900094591 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -153,8 +147,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				89387D771C985B1500AD29AE /* libicucore.tbd in Frameworks */,
+				89387D391C984CD500AD29AE /* libz.tbd in Frameworks */,
 				FE1164C01BF83A1300094591 /* libsqlite3.tbd in Frameworks */,
-				FE1164BE1BF83A0800094591 /* libz.1.2.5.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -178,15 +173,33 @@
 		89387CCD1C98432400AD29AE /* TFM3u8DownLoad */ = {
 			isa = PBXGroup;
 			children = (
+				89387CD71C9847CA00AD29AE /* FileModel.h */,
+				89387CD81C9847CA00AD29AE /* FileModel.m */,
 				89387CCE1C98432400AD29AE /* TFDownLoadTools.h */,
 				89387CCF1C98432400AD29AE /* TFDownLoadTools.m */,
+				89387CD11C98444B00AD29AE /* TFM3u8FileModel.h */,
+				89387CD21C98444B00AD29AE /* TFM3u8FileModel.m */,
+				89387CD41C98448400AD29AE /* TFM3u8Downloader.h */,
+				89387CD51C98448400AD29AE /* TFM3u8Downloader.m */,
 			);
 			path = TFM3u8DownLoad;
+			sourceTree = "<group>";
+		};
+		89387D731C9857F800AD29AE /* regex */ = {
+			isa = PBXGroup;
+			children = (
+				89387D741C9857F800AD29AE /* RegexKitLite.h */,
+				89387D751C9857F800AD29AE /* RegexKitLite.m */,
+			);
+			path = regex;
 			sourceTree = "<group>";
 		};
 		FE11643B1BF8362E00094591 = {
 			isa = PBXGroup;
 			children = (
+				89387D3A1C984D3300AD29AE /* libicucore.tbd */,
+				89387D381C984CD500AD29AE /* libz.tbd */,
+				89387D361C984C8100AD29AE /* libxml2.tbd */,
 				FE1164E91BF83AC900094591 /* PrefixHeader.pch */,
 				FE1164461BF8362E00094591 /* TFM3u8DownLoad */,
 				FE1164601BF8362E00094591 /* TFM3u8DownLoadTests */,
@@ -208,17 +221,15 @@
 		FE1164461BF8362E00094591 /* TFM3u8DownLoad */ = {
 			isa = PBXGroup;
 			children = (
-				FE11647A1BF839E300094591 /* Iib */,
-				FE1164C11BF83A7000094591 /* Class */,
 				FE11644A1BF8362E00094591 /* AppDelegate.h */,
 				FE11644B1BF8362E00094591 /* AppDelegate.m */,
+				FE1164501BF8362E00094591 /* Main.storyboard */,
+				FE1164531BF8362E00094591 /* Assets.xcassets */,
+				FE11647A1BF839E300094591 /* Iib */,
+				FE1164C11BF83A7000094591 /* Class */,
 				89387CCD1C98432400AD29AE /* TFM3u8DownLoad */,
 				FE11644D1BF8362E00094591 /* ViewController.h */,
 				FE11644E1BF8362E00094591 /* ViewController.m */,
-				FE1164501BF8362E00094591 /* Main.storyboard */,
-				FE1164531BF8362E00094591 /* Assets.xcassets */,
-				FE1164551BF8362E00094591 /* LaunchScreen.storyboard */,
-				FE1164581BF8362E00094591 /* Info.plist */,
 				FE1164471BF8362E00094591 /* Supporting Files */,
 			);
 			path = TFM3u8DownLoad;
@@ -227,6 +238,8 @@
 		FE1164471BF8362E00094591 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				FE1164551BF8362E00094591 /* LaunchScreen.storyboard */,
+				FE1164581BF8362E00094591 /* Info.plist */,
 				FE1164BF1BF83A1300094591 /* libsqlite3.tbd */,
 				FE1164BD1BF83A0800094591 /* libz.1.2.5.tbd */,
 				FE1164481BF8362E00094591 /* main.m */,
@@ -255,6 +268,7 @@
 		FE11647A1BF839E300094591 /* Iib */ = {
 			isa = PBXGroup;
 			children = (
+				89387D731C9857F800AD29AE /* regex */,
 				FE11647B1BF839E300094591 /* ASIHTTPRequest */,
 				FE1164961BF839E300094591 /* ClearCache */,
 				FE11649B1BF839E300094591 /* DataBaseTool */,
@@ -347,12 +361,6 @@
 		FE1164C21BF83A7000094591 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				FE1164C31BF83A7000094591 /* DowningController.h */,
-				FE1164C41BF83A7000094591 /* DowningController.m */,
-				FE1164C51BF83A7000094591 /* DownManagerViewController.h */,
-				FE1164C61BF83A7000094591 /* DownManagerViewController.m */,
-				FE1164C71BF83A7000094591 /* FilesViewController.h */,
-				FE1164C81BF83A7000094591 /* FilesViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -369,14 +377,6 @@
 		FE1164CC1BF83A7000094591 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				FE1164CD1BF83A7000094591 /* DowningCell.h */,
-				FE1164CE1BF83A7000094591 /* DowningCell.m */,
-				FE1164CF1BF83A7000094591 /* DowningCell.xib */,
-				FE1164D01BF83A7000094591 /* DownloadedCell.h */,
-				FE1164D11BF83A7000094591 /* DownloadedCell.m */,
-				FE1164D21BF83A7000094591 /* DownloadedCell.xib */,
-				FE1164D31BF83A7000094591 /* FilesCell.h */,
-				FE1164D41BF83A7000094591 /* FilesCell.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -486,8 +486,6 @@
 			files = (
 				FE1164571BF8362E00094591 /* LaunchScreen.storyboard in Resources */,
 				FE1164541BF8362E00094591 /* Assets.xcassets in Resources */,
-				FE1164DC1BF83A7000094591 /* DownloadedCell.xib in Resources */,
-				FE1164DA1BF83A7000094591 /* DowningCell.xib in Resources */,
 				FE1164521BF8362E00094591 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -513,32 +511,30 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FE1164DB1BF83A7000094591 /* DownloadedCell.m in Sources */,
 				FE1164AB1BF839E300094591 /* ASIDataCompressor.m in Sources */,
-				FE1164D51BF83A7000094591 /* DowningController.m in Sources */,
+				89387CD61C98448400AD29AE /* TFM3u8Downloader.m in Sources */,
 				FE1164B51BF839E300094591 /* NSString+TF.m in Sources */,
 				FE11644F1BF8362E00094591 /* ViewController.m in Sources */,
 				FE1164B81BF839E300094591 /* FMDatabase.m in Sources */,
 				FE1164AF1BF839E300094591 /* ASIHTTPRequest.m in Sources */,
 				FE1164AA1BF839E300094591 /* ASIAuthenticationDialog.m in Sources */,
 				FE1164AE1BF839E300094591 /* ASIFormDataRequest.m in Sources */,
-				FE1164D61BF83A7000094591 /* DownManagerViewController.m in Sources */,
 				FE11644C1BF8362E00094591 /* AppDelegate.m in Sources */,
 				FE1164BC1BF839E300094591 /* FMResultSet.m in Sources */,
 				FE1164B01BF839E300094591 /* ASIInputStream.m in Sources */,
-				FE1164DD1BF83A7000094591 /* FilesCell.m in Sources */,
 				FE1164491BF8362E00094591 /* main.m in Sources */,
 				FE1164D81BF83A7000094591 /* ContentModel.m in Sources */,
-				FE1164D71BF83A7000094591 /* FilesViewController.m in Sources */,
 				FE1164B11BF839E300094591 /* ASINetworkQueue.m in Sources */,
+				89387D761C9857F800AD29AE /* RegexKitLite.m in Sources */,
 				FE1164B21BF839E300094591 /* ASINSStringAdditions.m in Sources */,
 				FE1164B71BF839E300094591 /* DatabaseTool.m in Sources */,
 				FE1164B41BF839E300094591 /* Reachability.m in Sources */,
 				89387CD01C98432400AD29AE /* TFDownLoadTools.m in Sources */,
+				89387CD91C9847CA00AD29AE /* FileModel.m in Sources */,
 				FE1164AC1BF839E300094591 /* ASIDataDecompressor.m in Sources */,
+				89387CD31C98444B00AD29AE /* TFM3u8FileModel.m in Sources */,
 				FE1164B91BF839E300094591 /* FMDatabaseAdditions.m in Sources */,
 				FE1164AD1BF839E300094591 /* ASIDownloadCache.m in Sources */,
-				FE1164D91BF83A7000094591 /* DowningCell.m in Sources */,
 				FE1164BB1BF839E300094591 /* FMDatabaseQueue.m in Sources */,
 				FE1164BA1BF839E300094591 /* FMDatabasePool.m in Sources */,
 				FE1164B31BF839E300094591 /* NSHTTPCookieAdditions.m in Sources */,
