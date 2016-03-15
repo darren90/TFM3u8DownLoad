@@ -9,6 +9,10 @@
 #import "ViewController.h"
 
 @interface ViewController ()
+@property (weak, nonatomic) IBOutlet UILabel *urlLabel;
+@property (weak, nonatomic) IBOutlet UIProgressView *progressView;
+- (IBAction)startDown:(UIButton *)sender;
+@property (weak, nonatomic) IBOutlet UIButton *stopDown;
 
 @end
 
@@ -24,4 +28,6 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (IBAction)startDown:(UIButton *)sender {
+}
 @end

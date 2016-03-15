@@ -35,12 +35,6 @@
 		FE1164B41BF839E300094591 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = FE1164951BF839E300094591 /* Reachability.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		FE1164B51BF839E300094591 /* NSString+TF.m in Sources */ = {isa = PBXBuildFile; fileRef = FE1164981BF839E300094591 /* NSString+TF.m */; };
 		FE1164B61BF839E300094591 /* WdCleanCaches.m in Sources */ = {isa = PBXBuildFile; fileRef = FE11649A1BF839E300094591 /* WdCleanCaches.m */; };
-		FE1164B71BF839E300094591 /* DatabaseTool.m in Sources */ = {isa = PBXBuildFile; fileRef = FE11649D1BF839E300094591 /* DatabaseTool.m */; };
-		FE1164B81BF839E300094591 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = FE1164A01BF839E300094591 /* FMDatabase.m */; };
-		FE1164B91BF839E300094591 /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = FE1164A21BF839E300094591 /* FMDatabaseAdditions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		FE1164BA1BF839E300094591 /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = FE1164A41BF839E300094591 /* FMDatabasePool.m */; };
-		FE1164BB1BF839E300094591 /* FMDatabaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = FE1164A61BF839E300094591 /* FMDatabaseQueue.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		FE1164BC1BF839E300094591 /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = FE1164A91BF839E300094591 /* FMResultSet.m */; };
 		FE1164C01BF83A1300094591 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = FE1164BF1BF83A1300094591 /* libsqlite3.tbd */; };
 		FE1164D81BF83A7000094591 /* ContentModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FE1164CB1BF83A7000094591 /* ContentModel.m */; };
 /* End PBXBuildFile section */
@@ -122,19 +116,6 @@
 		FE1164981BF839E300094591 /* NSString+TF.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+TF.m"; sourceTree = "<group>"; };
 		FE1164991BF839E300094591 /* WdCleanCaches.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WdCleanCaches.h; sourceTree = "<group>"; };
 		FE11649A1BF839E300094591 /* WdCleanCaches.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WdCleanCaches.m; sourceTree = "<group>"; };
-		FE11649C1BF839E300094591 /* DatabaseTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DatabaseTool.h; sourceTree = "<group>"; };
-		FE11649D1BF839E300094591 /* DatabaseTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DatabaseTool.m; sourceTree = "<group>"; };
-		FE11649F1BF839E300094591 /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabase.h; sourceTree = "<group>"; };
-		FE1164A01BF839E300094591 /* FMDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabase.m; sourceTree = "<group>"; };
-		FE1164A11BF839E300094591 /* FMDatabaseAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseAdditions.h; sourceTree = "<group>"; };
-		FE1164A21BF839E300094591 /* FMDatabaseAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabaseAdditions.m; sourceTree = "<group>"; };
-		FE1164A31BF839E300094591 /* FMDatabasePool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabasePool.h; sourceTree = "<group>"; };
-		FE1164A41BF839E300094591 /* FMDatabasePool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabasePool.m; sourceTree = "<group>"; };
-		FE1164A51BF839E300094591 /* FMDatabaseQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseQueue.h; sourceTree = "<group>"; };
-		FE1164A61BF839E300094591 /* FMDatabaseQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabaseQueue.m; sourceTree = "<group>"; };
-		FE1164A71BF839E300094591 /* FMDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDB.h; sourceTree = "<group>"; };
-		FE1164A81BF839E300094591 /* FMResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMResultSet.h; sourceTree = "<group>"; };
-		FE1164A91BF839E300094591 /* FMResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMResultSet.m; sourceTree = "<group>"; };
 		FE1164BD1BF83A0800094591 /* libz.1.2.5.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.1.2.5.tbd; path = usr/lib/libz.1.2.5.tbd; sourceTree = SDKROOT; };
 		FE1164BF1BF83A1300094591 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		FE1164CA1BF83A7000094591 /* ContentModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContentModel.h; sourceTree = "<group>"; };
@@ -271,8 +252,6 @@
 				89387D731C9857F800AD29AE /* regex */,
 				FE11647B1BF839E300094591 /* ASIHTTPRequest */,
 				FE1164961BF839E300094591 /* ClearCache */,
-				FE11649B1BF839E300094591 /* DataBaseTool */,
-				FE11649E1BF839E300094591 /* FMDB */,
 			);
 			path = Iib;
 			sourceTree = "<group>";
@@ -319,33 +298,6 @@
 				FE11649A1BF839E300094591 /* WdCleanCaches.m */,
 			);
 			path = ClearCache;
-			sourceTree = "<group>";
-		};
-		FE11649B1BF839E300094591 /* DataBaseTool */ = {
-			isa = PBXGroup;
-			children = (
-				FE11649C1BF839E300094591 /* DatabaseTool.h */,
-				FE11649D1BF839E300094591 /* DatabaseTool.m */,
-			);
-			path = DataBaseTool;
-			sourceTree = "<group>";
-		};
-		FE11649E1BF839E300094591 /* FMDB */ = {
-			isa = PBXGroup;
-			children = (
-				FE11649F1BF839E300094591 /* FMDatabase.h */,
-				FE1164A01BF839E300094591 /* FMDatabase.m */,
-				FE1164A11BF839E300094591 /* FMDatabaseAdditions.h */,
-				FE1164A21BF839E300094591 /* FMDatabaseAdditions.m */,
-				FE1164A31BF839E300094591 /* FMDatabasePool.h */,
-				FE1164A41BF839E300094591 /* FMDatabasePool.m */,
-				FE1164A51BF839E300094591 /* FMDatabaseQueue.h */,
-				FE1164A61BF839E300094591 /* FMDatabaseQueue.m */,
-				FE1164A71BF839E300094591 /* FMDB.h */,
-				FE1164A81BF839E300094591 /* FMResultSet.h */,
-				FE1164A91BF839E300094591 /* FMResultSet.m */,
-			);
-			path = FMDB;
 			sourceTree = "<group>";
 		};
 		FE1164C11BF83A7000094591 /* Class */ = {
@@ -515,28 +467,22 @@
 				89387CD61C98448400AD29AE /* TFM3u8Downloader.m in Sources */,
 				FE1164B51BF839E300094591 /* NSString+TF.m in Sources */,
 				FE11644F1BF8362E00094591 /* ViewController.m in Sources */,
-				FE1164B81BF839E300094591 /* FMDatabase.m in Sources */,
 				FE1164AF1BF839E300094591 /* ASIHTTPRequest.m in Sources */,
 				FE1164AA1BF839E300094591 /* ASIAuthenticationDialog.m in Sources */,
 				FE1164AE1BF839E300094591 /* ASIFormDataRequest.m in Sources */,
 				FE11644C1BF8362E00094591 /* AppDelegate.m in Sources */,
-				FE1164BC1BF839E300094591 /* FMResultSet.m in Sources */,
 				FE1164B01BF839E300094591 /* ASIInputStream.m in Sources */,
 				FE1164491BF8362E00094591 /* main.m in Sources */,
 				FE1164D81BF83A7000094591 /* ContentModel.m in Sources */,
 				FE1164B11BF839E300094591 /* ASINetworkQueue.m in Sources */,
 				89387D761C9857F800AD29AE /* RegexKitLite.m in Sources */,
 				FE1164B21BF839E300094591 /* ASINSStringAdditions.m in Sources */,
-				FE1164B71BF839E300094591 /* DatabaseTool.m in Sources */,
 				FE1164B41BF839E300094591 /* Reachability.m in Sources */,
 				89387CD01C98432400AD29AE /* TFDownLoadTools.m in Sources */,
 				89387CD91C9847CA00AD29AE /* FileModel.m in Sources */,
 				FE1164AC1BF839E300094591 /* ASIDataDecompressor.m in Sources */,
 				89387CD31C98444B00AD29AE /* TFM3u8FileModel.m in Sources */,
-				FE1164B91BF839E300094591 /* FMDatabaseAdditions.m in Sources */,
 				FE1164AD1BF839E300094591 /* ASIDownloadCache.m in Sources */,
-				FE1164BB1BF839E300094591 /* FMDatabaseQueue.m in Sources */,
-				FE1164BA1BF839E300094591 /* FMDatabasePool.m in Sources */,
 				FE1164B31BF839E300094591 /* NSHTTPCookieAdditions.m in Sources */,
 				FE1164B61BF839E300094591 /* WdCleanCaches.m in Sources */,
 			);

@@ -81,7 +81,7 @@ static   TFM3u8Downloader *sharedFilesDownManage = nil;
     
     if(self.m3u8PartList != nil && self.m3u8PartList.count != 0)  {
 #pragma - mark  到数据库中查找是否有片段没有下载完毕
-        int segmentHadDown = [DatabaseTool getMovieHadDownSegment:self.fileInfo.uniquenName];
+        int segmentHadDown = 0;//[DatabaseTool getMovieHadDownSegment:self.fileInfo.uniquenName];
         
         if (segmentHadDown != 0 && (segmentHadDown < self.m3u8PartList.count)) {   //存在有片段 没有下载完毕的,则去除已经下载的m3u8PartList数组里的片段，重新装载未下载的数据
             NSRange range = NSMakeRange(0, segmentHadDown);
@@ -188,7 +188,7 @@ static   TFM3u8Downloader *sharedFilesDownManage = nil;
     float progress = 1 - [TFDownLoadTools getProgress:self.partCont currentSize:self.m3u8PartList.count];
     fileInfo.progress = progress;
     NSLog(@"stop-m3u8--progress:%f",progress);
-    [DatabaseTool updatePartWhenDownStoWithPprogress:progress segmentHadDown:(int)(self.partCont- self.m3u8PartList.count) uniqueName:fileInfo.uniquenName];
+//    [DatabaseTool updatePartWhenDownStoWithPprogress:progress segmentHadDown:(int)(self.partCont- self.m3u8PartList.count) uniqueName:fileInfo.uniquenName];
     
     for (TFM3u8FileModel *file in self.m3u8PartList) {
         if ([file.fileName isEqualToString:fileInfo.fileName]) {
