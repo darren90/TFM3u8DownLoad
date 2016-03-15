@@ -22,24 +22,15 @@
 
 
 #pragma mark - 正文的开始 M3u8Downloader
-
-
-@class FileModel;
 @interface TFM3u8Downloader : NSObject
++(TFM3u8Downloader *) sharedM3u8Downloader;
 
-//接收的参数
-@property(nonatomic,strong)TFM3u8FileModel *filefileInfo;
 
 @property(nonatomic,strong)TFM3u8FileModel *fileInfo;
 
-
-///仅仅用于在更新进度时，传递外部参数，无实际意义，
-@property (nonatomic,strong)ASIHTTPRequest *tranferReques;
-
-+(TFM3u8Downloader *) sharedM3u8Downloader;
-
 //开始下载
 -(void)startDownLoad;
+
 //重新下载
 -(void)resumeRequest;
 //停止下载

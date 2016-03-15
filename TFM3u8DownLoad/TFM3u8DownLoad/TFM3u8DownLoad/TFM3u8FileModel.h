@@ -19,22 +19,19 @@
 
 @property(nonatomic,copy)NSString *fileName;//下载文件存储的的名字//XXX.mp4
 @property(nonatomic,copy)NSString *fileSize;//总大小
+@property(nonatomic,copy)NSString *fileURL;//下载地址
 
-@property (nonatomic, copy) NSString * title;
-@property (nonatomic,copy)NSString * iconUrl;//剧照
-@property (nonatomic,assign)BOOL isHadDown;//是否已经下载完毕 - 下载完毕要更新为YES
-@property (nonatomic,assign)int urlType;//存储FileUrlType
-#pragma mark - m3u8下载专有的片段
 @property (nonatomic,assign)float progress;//进度
 @property (nonatomic,assign)int segmentHadDown;//已经下载的片段
-#pragma mark - m3u8下载专有的片段
 
-
-@property(nonatomic,copy)NSString *fileURL;//下载地址
 
 @property(nonatomic,assign)BOOL isDownloading;//是否正在下载
 @property(nonatomic,assign)BOOL willDownloading;
 @property(nonatomic,assign)BOOL error;
+
+//@property (nonatomic, copy) NSString * title;
+@property (nonatomic,copy)NSString * iconUrl;//剧照
+@property (nonatomic,assign)BOOL isHadDown;//是否已经下载完毕 - 下载完毕要更新为YES
 
 @property(nonatomic,copy)NSString *targetPath;
 @property(nonatomic,copy)NSString *tempPath;

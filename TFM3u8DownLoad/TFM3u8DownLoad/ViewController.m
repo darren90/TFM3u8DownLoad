@@ -7,13 +7,15 @@
 //
 
 #import "ViewController.h"
+#import "TFM3u8FileModel.h"
+#import "TFM3u8Downloader.h"
 
 @interface ViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *urlLabel;
 @property (weak, nonatomic) IBOutlet UIProgressView *progressView;
 - (IBAction)startDown:(UIButton *)sender;
-@property (weak, nonatomic) IBOutlet UIButton *stopDown;
-
+- (IBAction)stopDown:(UIButton *)sender;
+ 
 @end
 
 @implementation ViewController
@@ -27,7 +29,14 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
+#pragma makr - 开始下载
 - (IBAction)startDown:(UIButton *)sender {
+    TFM3u8FileModel *model = [[TFM3u8FileModel alloc] init];
+    [TFM3u8Downloader sharedM3u8Downloader].fileInfo = model;
+}
+
+#pragma mark - 暂定下载
+- (IBAction)stopDown:(UIButton *)sender {
+    
 }
 @end

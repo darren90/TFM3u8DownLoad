@@ -18,11 +18,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VVt-zT-5ei">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VVt-zT-5ei">
                                 <rect key="frame" x="20" y="123" width="560" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="fpv-Mw-M7f"/>
                                 </constraints>
+                                <string key="text">http://115.28.43.55/lol/index.php/YoukuM3u8/getplaylist/type/hd2/youkuid/XMTQ5NzIyMDMyNA/movieid/25680/code/e76047047477dc51fc19ebdc71fa7274
+</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
@@ -53,6 +55,9 @@
                                     <constraint firstAttribute="width" constant="46" id="wJ2-fk-IPO"/>
                                 </constraints>
                                 <state key="normal" title="Stop"/>
+                                <connections>
+                                    <action selector="stopDown:" destination="BYZ-38-t0r" eventType="touchUpInside" id="6kL-G5-O1H"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -85,7 +90,6 @@
                     </view>
                     <connections>
                         <outlet property="progressView" destination="Mtr-Ts-oqo" id="Zne-WQ-FJG"/>
-                        <outlet property="stopDown" destination="G87-8V-T5h" id="uTC-QC-Z8L"/>
                         <outlet property="urlLabel" destination="VVt-zT-5ei" id="KYm-ZA-cST"/>
                     </connections>
                 </viewController>

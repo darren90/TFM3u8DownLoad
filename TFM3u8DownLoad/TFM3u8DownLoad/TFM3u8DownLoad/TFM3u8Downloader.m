@@ -26,6 +26,9 @@
 @property(nonatomic,strong)NSMutableArray *downinglist;//正在下载的文件列表(储存:ASIHttpRequest)
 @property(nonatomic,strong)NSMutableArray *finishedlist;//已下载完成的文件列表（存储:FileModel）
 
+///仅仅用于在更新进度时，传递外部参数，无实际意义，
+@property (nonatomic,strong)ASIHTTPRequest *tranferReques;
+
 //片段新加代码
 
 /** m3u8的总片段数 */
@@ -102,13 +105,6 @@ static   TFM3u8Downloader *sharedFilesDownManage = nil;
 -(void)beginRequest:(TFM3u8FileModel *)fileInfo isBeginDown:(BOOL)isBeginDown
 {
     [self saveDownloadFile:fileInfo];
-    
-    //NSLog(@"targetPath %@",fileInfo.targetPath);
-    //按照获取的文件名获取临时文件的大小，即已下载的大小
-    
-     NSFileManager *fileManager=[NSFileManager defaultManager];
-    NSData *fileData=[fileManager contentsAtPath:fileInfo.tempPath];
-    NSInteger receivedDataLength=[fileData length];
   
 #pragma mark - 启用ASIHTTPRequest进行下载请求
     ASIHTTPRequest *request=[[ASIHTTPRequest alloc] initWithURL:[NSURL URLWithString:fileInfo.fileURL]];
@@ -341,9 +337,7 @@ static   TFM3u8Downloader *sharedFilesDownManage = nil;
     //    [DatabaseTool updateFilesModeWhenDownFinish:_finishedlist];
     
 }
--(void)deleteFinishFile:(FileModel *)selectFile{
-    [_finishedlist removeObject:selectFile];
-}
+
 
 #pragma mark -- ASIHttpRequest 代理
 #pragma mark -- ASIHttpRequest回调委托 --
@@ -569,10 +563,8 @@ static   TFM3u8Downloader *sharedFilesDownManage = nil;
         TFM3u8FileModel *m = [[TFM3u8FileModel alloc]init];
         m.uniquenName = self.fileInfo.uniquenName;
      
-        m.title = self.fileInfo.title;
         m.iconUrl = self.fileInfo.iconUrl;
         m.isHadDown = self.fileInfo.isHadDown;
-        m.urlType = self.fileInfo.urlType;
         m.progress = self.fileInfo.progress;
         m.fileName = tsName;//self.fileInfo.fileName;//
         m.progress = self.fileInfo.progress;

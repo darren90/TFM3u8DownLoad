@@ -10,7 +10,6 @@
 		89387CD01C98432400AD29AE /* TFDownLoadTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89387CCF1C98432400AD29AE /* TFDownLoadTools.m */; };
 		89387CD31C98444B00AD29AE /* TFM3u8FileModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 89387CD21C98444B00AD29AE /* TFM3u8FileModel.m */; };
 		89387CD61C98448400AD29AE /* TFM3u8Downloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 89387CD51C98448400AD29AE /* TFM3u8Downloader.m */; };
-		89387CD91C9847CA00AD29AE /* FileModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 89387CD81C9847CA00AD29AE /* FileModel.m */; };
 		89387D391C984CD500AD29AE /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 89387D381C984CD500AD29AE /* libz.tbd */; };
 		89387D761C9857F800AD29AE /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = 89387D751C9857F800AD29AE /* RegexKitLite.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		89387D771C985B1500AD29AE /* libicucore.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 89387D3A1C984D3300AD29AE /* libicucore.tbd */; };
@@ -63,8 +62,6 @@
 		89387CD21C98444B00AD29AE /* TFM3u8FileModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFM3u8FileModel.m; sourceTree = "<group>"; };
 		89387CD41C98448400AD29AE /* TFM3u8Downloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFM3u8Downloader.h; sourceTree = "<group>"; };
 		89387CD51C98448400AD29AE /* TFM3u8Downloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFM3u8Downloader.m; sourceTree = "<group>"; };
-		89387CD71C9847CA00AD29AE /* FileModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileModel.h; sourceTree = "<group>"; };
-		89387CD81C9847CA00AD29AE /* FileModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileModel.m; sourceTree = "<group>"; };
 		89387D361C984C8100AD29AE /* libxml2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.tbd; path = usr/lib/libxml2.tbd; sourceTree = SDKROOT; };
 		89387D381C984CD500AD29AE /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		89387D3A1C984D3300AD29AE /* libicucore.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libicucore.tbd; path = usr/lib/libicucore.tbd; sourceTree = SDKROOT; };
@@ -154,8 +151,6 @@
 		89387CCD1C98432400AD29AE /* TFM3u8DownLoad */ = {
 			isa = PBXGroup;
 			children = (
-				89387CD71C9847CA00AD29AE /* FileModel.h */,
-				89387CD81C9847CA00AD29AE /* FileModel.m */,
 				89387CCE1C98432400AD29AE /* TFDownLoadTools.h */,
 				89387CCF1C98432400AD29AE /* TFDownLoadTools.m */,
 				89387CD11C98444B00AD29AE /* TFM3u8FileModel.h */,
@@ -202,13 +197,13 @@
 		FE1164461BF8362E00094591 /* TFM3u8DownLoad */ = {
 			isa = PBXGroup;
 			children = (
+				FE11647A1BF839E300094591 /* Iib */,
+				FE1164C11BF83A7000094591 /* Class */,
+				89387CCD1C98432400AD29AE /* TFM3u8DownLoad */,
 				FE11644A1BF8362E00094591 /* AppDelegate.h */,
 				FE11644B1BF8362E00094591 /* AppDelegate.m */,
 				FE1164501BF8362E00094591 /* Main.storyboard */,
 				FE1164531BF8362E00094591 /* Assets.xcassets */,
-				FE11647A1BF839E300094591 /* Iib */,
-				FE1164C11BF83A7000094591 /* Class */,
-				89387CCD1C98432400AD29AE /* TFM3u8DownLoad */,
 				FE11644D1BF8362E00094591 /* ViewController.h */,
 				FE11644E1BF8362E00094591 /* ViewController.m */,
 				FE1164471BF8362E00094591 /* Supporting Files */,
@@ -479,7 +474,6 @@
 				FE1164B21BF839E300094591 /* ASINSStringAdditions.m in Sources */,
 				FE1164B41BF839E300094591 /* Reachability.m in Sources */,
 				89387CD01C98432400AD29AE /* TFDownLoadTools.m in Sources */,
-				89387CD91C9847CA00AD29AE /* FileModel.m in Sources */,
 				FE1164AC1BF839E300094591 /* ASIDataDecompressor.m in Sources */,
 				89387CD31C98444B00AD29AE /* TFM3u8FileModel.m in Sources */,
 				FE1164AD1BF839E300094591 /* ASIDownloadCache.m in Sources */,
