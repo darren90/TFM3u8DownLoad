@@ -35,7 +35,7 @@ static FMDatabase *_db;
  
     //1：新下载  fileName 主键
     if (![_db tableExists:@"fileModel"]) {
-        [_db executeUpdate:@"CREATE TABLE if not exists fileModel (id integer primary key autoincrement,fileName TEXT,title TEXT,fileURL TEXT,iconUrl TEXT,filesize TEXT,filerecievesize TEXT,isHadDown integer,urlType integer)"];
+        [_db executeUpdate:@"CREATE TABLE if not exists fileModel (id integer primary key autoincrement,uniquenName TEXT,movieId TEXT,episode integer,fileName TEXT,title TEXT,fileURL TEXT,iconUrl TEXT,targetPath TEXT,tempPath TEXT,filesize TEXT,filerecievesize TEXT,basepath TEXT,time TEXT,isHadDown integer,urlType integer,webPlayUrl TEXT,quality TEXT,episodeSid TEXT,progress double,segmentHadDown integer)"];
     }
       
     [_db close];

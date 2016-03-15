@@ -5,7 +5,8 @@
 ### Some
 
  1. [流媒体开发之–HLS–M3U8解析](http://mobile1.riaos.com/?p=2026287) - 关于m3u8文件的一些分析认识
- 2. 感谢[XB2](https://github.com/luoxubin/XB2)-里面提供的m3u8文件的下载私聊
+ 2. [wiki上m3u8的解释](https://zh.wikipedia.org/wiki/M3U) - 需要科学上网才可打开
+ 3. 感谢[XB2](https://github.com/luoxubin/XB2)-里面提供的m3u8文件的下载私聊
 
  
 ---
