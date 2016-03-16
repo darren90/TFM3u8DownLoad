@@ -5,9 +5,10 @@
 ### Some
 
 1. [流媒体开发之–HLS–M3U8解析](http://mobile1.riaos.com/?p=2026287) - 关于m3u8文件的一些分析认识
-2. [wiki上m3u8的解释](https://zh.wikipedia.org/wiki/M3U) - 需要科学上网才可打开
-3. [linux下搭建生成HLS所需的.ts和.m3u8文件](http://www.cnblogs.com/mystory/archive/2013/04/07/3006200.html) - 从m3u8文件的生成来了解其机制
-4. [Apple的介绍](https://developer.apple.com/streaming/) - 苹果的官网对已这种HTTP Live Streaming 的介绍
+2. [m3u8文件信息总结](http://blog.csdn.net/blueboyhi/article/details/40107683) - 全面的m3u8的介绍
+3. [wiki上m3u8的解释](https://zh.wikipedia.org/wiki/M3U) - 需要科学上网才可打开
+4. [linux下搭建生成HLS所需的.ts和.m3u8文件](http://www.cnblogs.com/mystory/archive/2013/04/07/3006200.html) - 从m3u8文件的生成来了解其机制
+5. [Apple的介绍](https://developer.apple.com/streaming/) - 苹果的官网对已这种HTTP Live Streaming 的介绍 //key word `apple m3u8`
   感谢[XB2](https://github.com/luoxubin/XB2)-里面提供的m3u8文件的下载私聊
 
  
