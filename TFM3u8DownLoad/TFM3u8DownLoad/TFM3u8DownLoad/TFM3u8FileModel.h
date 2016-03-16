@@ -15,7 +15,7 @@
 @interface TFM3u8FileModel : NSObject
 
 /**
-    下载时，需要传递的参数
+    1：下载时，需要传递的参数
  */
 
 /** 唯一 */
@@ -24,15 +24,18 @@
 @property(nonatomic,copy)NSString *fileURL;//下载地址
 
 
-
-
 /**
- 下载时，不需要传递的参数
+    2：下载时，不需要传递的参数
  */
 @property(nonatomic,copy)NSString *fileSize;//总大小
 @property (nonatomic,assign)float progress;//进度
 @property (nonatomic,assign)int segmentHadDown;//已经下载的片段
 
+
+
+/**
+    3：下载过程中会用到的参数
+ */
 @property(nonatomic,assign)BOOL isDownloading;//是否正在下载
 @property(nonatomic,assign)BOOL willDownloading;
 @property(nonatomic,assign)BOOL error;

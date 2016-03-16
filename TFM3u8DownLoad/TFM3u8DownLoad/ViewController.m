@@ -23,6 +23,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+//    self.progressView.
 }
 
 - (void)didReceiveMemoryWarning {
@@ -49,21 +50,25 @@
 }
 
 #pragma mark - TFM3u8Downloader 的代理
--(void)m3u8DownloadFinished:(ASIHTTPRequest *)request{
+
+-(void)m3u8DownloaderProgress:(ASIHTTPRequest *)request{
+    TFM3u8FileModel *fileInfo =  [request.userInfo objectForKey:@"File"];
+    NSLog(@"name:,%@--progress:%f",fileInfo.uniquenName,fileInfo.progress);
+    
+    self.progressView.progress = fileInfo.progress;
+}
+
+-(void)m3u8DownloaderFinished:(ASIHTTPRequest *)request{
     NSLog(@"---m3u8的文件下载完成----");
 }
 
 
--(void)m3u8DownloadFailed:(ASIHTTPRequest *)request{
+-(void)m3u8DownloaderFailed:(ASIHTTPRequest *)request{
     NSLog(@"---m3u8的文件下载失败----");
      NSError *error=[request error];
     NSLog(@"--m3u8--ASIHttpRequest出错了!%@",error);
  
     
 }
--(void)m3u8DownloadProgress:(ASIHTTPRequest *)request{
-        TFM3u8FileModel *fileInfo =  [request.userInfo objectForKey:@"File"];
-        NSLog(@"name:,%@--progress:%f",fileInfo.uniquenName,fileInfo.progress);
-  
-}
+
 @end

@@ -54,16 +54,13 @@ static   TFM3u8Downloader *sharedFilesDownManage = nil;
 
 //重新下载
 -(void)resumeRequest{
-    //    [self resumeRequest:self.request];
     [self startDownloadInGroup];
 }
 
 -(void)stopDownLoad{
     [self stopRequest:self.request];
 }
--(void)cleanDownLoad{
-    
-}
+
 -(void)deleteDownLoad{
     [self deleteRequest:self.request];
 }
@@ -88,12 +85,6 @@ static   TFM3u8Downloader *sharedFilesDownManage = nil;
     
     NSLog(@"--全部加入下载队列--OK--");
 }
-
--(void)startDownPart:(M3u8PartInfo *)part  finish:(void (^)())finish{
-    
-    finish();
-}
-
 
 
 #pragma mark - 开始下载
@@ -231,8 +222,6 @@ static   TFM3u8Downloader *sharedFilesDownManage = nil;
             break;
         }
     }
-    
-    //    [self startLoad];
 }
 
 
@@ -277,48 +266,6 @@ static   TFM3u8Downloader *sharedFilesDownManage = nil;
     }
 }
 
--(void)clearAllFinished{
-    [self.finishedlist removeAllObjects];
-}
-
--(void)clearAllRquests{
-    NSFileManager *fileManager=[NSFileManager defaultManager];
-    NSError *error;
-    for (ASIHTTPRequest *request in _downinglist) {
-        if([request isExecuting])
-            [request cancel];
-        TFM3u8FileModel *fileInfo=(TFM3u8FileModel *)[request.userInfo objectForKey:@"File"];
-        NSString *path=fileInfo.tempPath;;
-        //        [DatabaseTool delFileModelWithUniquenName:fileInfo.uniquenName];//删除数据库记录
-        [fileManager removeItemAtPath:path error:&error];
-        
-        if(!error)  {
-            NSLog(@"%@",[error description]);
-        }
-        
-    }
-    [self.downinglist removeAllObjects];
-    [self.downinglist removeAllObjects];
-}
-
-/**
- *  加载所有的未下载的文件
- */
-#pragma mark - 加载未下载的文件文件
--(void)loadTempfiles
-{
-    NSArray *array = [NSArray array];//[DatabaseTool getFileModeArray:NO];//拿到未下载的数据
-    [self.downinglist addObjectsFromArray:array];
-    [self startLoad];
-}
-/**
- *  加载所有的已经下载完毕的文件
- */
--(void)loadFinishedfiles
-{
-    NSArray *array = [NSArray array];//[DatabaseTool getFileModeArray:YES];//拿到未下载的数据
-    [self.finishedlist addObjectsFromArray:array];
-}
 /**
  *  下载完毕 写文件
  */
@@ -328,7 +275,6 @@ static   TFM3u8Downloader *sharedFilesDownManage = nil;
         return;
     }
     //    [DatabaseTool updateFilesModeWhenDownFinish:_finishedlist];
-    
 }
 
 
@@ -526,6 +472,12 @@ static   TFM3u8Downloader *sharedFilesDownManage = nil;
         NSLog(@"create original m3u8file failed:%@",werror);
     }
     
+    
+    NSString *baseTargetPath = [TFDownLoadTools getCrTargetPath:@""];
+    NSString *targetPath = [baseTargetPath stringByAppendingPathComponent:self.fileInfo.uniquenName];;
+    NSString *baseTempPath = [TFDownLoadTools getCrTempPath:@""];
+    NSString *tempPath = [baseTempPath stringByAppendingPathComponent:self.fileInfo.uniquenName];
+    
     NSMutableArray *segments = [[NSMutableArray alloc] init];
     NSString* remainData =data;
     NSRange segmentRange = [remainData rangeOfString:@"#EXTINF:"];
@@ -546,8 +498,6 @@ static   TFM3u8Downloader *sharedFilesDownManage = nil;
         NSString* linkurl = [remainData substringWithRange:NSMakeRange(linkRangeBegin.location, linkRangeEnd.location - linkRangeBegin.location)];
         segment.locationUrl = linkurl;
         
-        //        [segments addObject:segment];
-        
         remainData = [remainData substringFromIndex:linkRangeEnd.location];
         segmentRange = [remainData rangeOfString:@"#EXTINF:"];
         
@@ -563,14 +513,16 @@ static   TFM3u8Downloader *sharedFilesDownManage = nil;
         m.progress = self.fileInfo.progress;
         m.segmentHadDown = self.fileInfo.segmentHadDown;
         
-        NSString *urlStr = [linkurl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];//url进行转义，不转义的话，
+        NSString *urlStr = [linkurl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];//url进行转义，不转义的话，包含中文字符，无法下载
         
         m.fileURL = urlStr;//把地址换成小段的地址啊
-        m.isDownloading = self.fileInfo.isDownloading;
-        m.willDownloading = self.fileInfo.willDownloading;
-        m.error = self.fileInfo.error;
-        m.targetPath = [NSString stringWithFormat:@"%@/%@",self.fileInfo.targetPath,tsName] ;;
-        m.tempPath =[NSString stringWithFormat:@"%@/%@",self.fileInfo.tempPath,tsName] ; ;
+        
+        m.isDownloading = YES;
+        m.willDownloading = YES;
+        m.error = NO;
+        
+        m.targetPath = [NSString stringWithFormat:@"%@/%@",targetPath,tsName] ;;
+        m.tempPath =[NSString stringWithFormat:@"%@/%@",tempPath,tsName] ; ;
         m.m3u8Info = segment;
         [segments addObject:m];
         
@@ -622,7 +574,6 @@ static   TFM3u8Downloader *sharedFilesDownManage = nil;
         NSLog(@"chang local movie.m3u8 file succeed; fullpath:%@;",fullpath);
         
         //替换m3u8文件成功后，删除Temp目录下的临时文件夹
-        //        NSString *tempTo = [[pathPrefix stringByAppendingPathComponent:@"Temp"] stringByAppendingPathComponent:self.fileInfo.uniquenName];
         NSString *tempp = [TFDownLoadTools getTempPath:self.fileInfo.uniquenName];
         [[NSFileManager defaultManager] removeItemAtPath:tempp error:nil];
     }

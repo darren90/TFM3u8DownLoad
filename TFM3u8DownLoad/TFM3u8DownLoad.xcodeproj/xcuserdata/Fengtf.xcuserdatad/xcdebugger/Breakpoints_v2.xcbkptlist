@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TFM3u8DownLoad/TFM3u8DownLoad/TFM3u8Downloader.m"
-            timestampString = "479816803.751871"
+            timestampString = "479817212.871826"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "582"
-            endingLineNumber = "582"
+            startingLineNumber = "597"
+            endingLineNumber = "597"
             landmarkName = "-praseUrl:withStableName:"
             landmarkType = "5">
          </BreakpointContent>
@@ -32,38 +32,6 @@
             startingLineNumber = "77"
             endingLineNumber = "77"
             landmarkName = "-startDownloadInGroup"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "TFM3u8DownLoad/TFM3u8DownLoad/TFM3u8Downloader.m"
-            timestampString = "479816844.286096"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "114"
-            endingLineNumber = "114"
-            landmarkName = "-beginRequest:isBeginDown:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "TFM3u8DownLoad/TFM3u8DownLoad/TFM3u8Downloader.m"
-            timestampString = "479816859.556968"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "103"
-            endingLineNumber = "103"
-            landmarkName = "-beginRequest:isBeginDown:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
