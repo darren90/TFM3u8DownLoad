@@ -8,7 +8,7 @@
 
 #import "TFM3u8Downloader.h"
 #import "Reachability.h"
-#import "ASIHTTPRequest.h"
+//#import "ASIHTTPRequest.h"
 #import "WdCleanCaches.h"
 #import "TFDownLoadTools.h"
 #import "RegexKitLite.h"
@@ -16,12 +16,6 @@
 @interface TFM3u8Downloader ()
 
 @property (nonatomic,strong) ASIHTTPRequest *request;
-
-@property(nonatomic,copy)NSString *basepath;
-
-@property(nonatomic,copy)NSString *TargetSubPath;
-
-@property(nonatomic,strong)NSMutableArray *targetPathArray;
 
 @property(nonatomic,strong)NSMutableArray *downinglist;//正在下载的文件列表(储存:ASIHttpRequest)
 @property(nonatomic,strong)NSMutableArray *finishedlist;//已下载完成的文件列表（存储:FileModel）
@@ -33,8 +27,6 @@
 
 /** m3u8的总片段数 */
 @property (nonatomic,strong)NSMutableArray * m3u8PartList;//已下载完成的文件列表（存储:M3u8PartInfo）
-
-@property (nonatomic,copy)void(^onePartDownFinished)();
 
 ///总的片段数
 @property (nonatomic,assign)int partCont;
@@ -101,6 +93,52 @@ static   TFM3u8Downloader *sharedFilesDownManage = nil;
     
     finish();
 }
+
+
+
+#pragma mark - 开始下载
+-(void)startLoad{
+    NSInteger num = 0;
+    NSInteger max = 1;
+    for (TFM3u8FileModel *file in self.m3u8PartList) {
+        if (!file.error) {
+            if (file.isDownloading==YES) {
+                file.willDownloading = NO;
+                
+                if (num>max) {
+                    file.isDownloading = NO;
+                    file.willDownloading = YES;
+                }else
+                    num++;
+            }
+        }
+    }
+    if (num<max) {
+        for (TFM3u8FileModel *file in self.m3u8PartList) {
+            if (!file.error) {
+                if (!file.isDownloading&&file.willDownloading) {
+                    num++;
+                    if (num>max) {
+                        break;
+                    }
+                    file.isDownloading = YES;
+                    file.willDownloading = NO;
+                }
+            }
+        }
+        
+    }
+    
+    for (TFM3u8FileModel *file in self.m3u8PartList) {
+        if (!file.error) {
+            if (file.isDownloading == YES) {
+                [self beginRequest:file isBeginDown:YES];
+            }else
+                [self beginRequest:file isBeginDown:NO];//暂定下载
+        }
+    }
+}
+
 
 -(void)beginRequest:(TFM3u8FileModel *)fileInfo isBeginDown:(BOOL)isBeginDown
 {
@@ -198,49 +236,6 @@ static   TFM3u8Downloader *sharedFilesDownManage = nil;
 }
 
 
-#pragma mark - 开始下载
--(void)startLoad{
-    NSInteger num = 0;
-    NSInteger max = 1;
-    for (TFM3u8FileModel *file in self.m3u8PartList) {
-        if (!file.error) {
-            if (file.isDownloading==YES) {
-                file.willDownloading = NO;
-                
-                if (num>max) {
-                    file.isDownloading = NO;
-                    file.willDownloading = YES;
-                }else
-                    num++;
-            }
-        }
-    }
-    if (num<max) {
-        for (TFM3u8FileModel *file in self.m3u8PartList) {
-            if (!file.error) {
-                if (!file.isDownloading&&file.willDownloading) {
-                    num++;
-                    if (num>max) {
-                        break;
-                    }
-                    file.isDownloading = YES;
-                    file.willDownloading = NO;
-                }
-            }
-        }
-        
-    }
-    
-    for (TFM3u8FileModel *file in self.m3u8PartList) {
-        if (!file.error) {
-            if (file.isDownloading == YES) {
-                [self beginRequest:file isBeginDown:YES];
-            }else
-                [self beginRequest:file isBeginDown:NO];//暂定下载
-        }
-    }
-}
-
 #pragma mark - 删除下载的操作
 -(void)deleteRequest:(ASIHTTPRequest *)request{
     bool isexecuting = NO;
@@ -312,8 +307,6 @@ static   TFM3u8Downloader *sharedFilesDownManage = nil;
 #pragma mark - 加载未下载的文件文件
 -(void)loadTempfiles
 {
-    self.basepath = kDownDomanPath ;
-    self.TargetSubPath = @"Video";
     NSArray *array = [NSArray array];//[DatabaseTool getFileModeArray:NO];//拿到未下载的数据
     [self.downinglist addObjectsFromArray:array];
     [self startLoad];

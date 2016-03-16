@@ -14,16 +14,24 @@
 @class M3u8PartInfo;
 @interface TFM3u8FileModel : NSObject
 
+/**
+    下载时，需要传递的参数
+ */
+
 /** 唯一 */
 @property (nonatomic, copy) NSString * uniquenName;//唯一主键
-
 @property(nonatomic,copy)NSString *fileName;//下载文件存储的的名字//XXX.mp4
-@property(nonatomic,copy)NSString *fileSize;//总大小
 @property(nonatomic,copy)NSString *fileURL;//下载地址
 
+
+
+
+/**
+ 下载时，不需要传递的参数
+ */
+@property(nonatomic,copy)NSString *fileSize;//总大小
 @property (nonatomic,assign)float progress;//进度
 @property (nonatomic,assign)int segmentHadDown;//已经下载的片段
-
 
 @property(nonatomic,assign)BOOL isDownloading;//是否正在下载
 @property(nonatomic,assign)BOOL willDownloading;

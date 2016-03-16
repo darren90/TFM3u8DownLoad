@@ -9,10 +9,9 @@
 #import <Foundation/Foundation.h>
 
 #import "TFM3u8FileModel.h"
-
+#import "ASIHTTPRequest.h"
 #pragma mark - m3u8文件下载的代理 M3u8DownloaderDelegate
-
-@class ASIHTTPRequest;
+ 
 @protocol TFM3u8DownloaderDelegate <NSObject>
 @optional
 -(void)m3u8DownloaderFinished:(ASIHTTPRequest *)request;

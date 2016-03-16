@@ -17,7 +17,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-    return YES;
+    //下载 -- 程序一开始就启动 参数1：下载的路径，参数2：待定
+     return YES;
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
